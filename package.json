@@ -6,6 +6,7 @@
   "homepage": "",
   "scripts": {
     "test": "jest --watchAll",
+    "test:ci": "jest",
     "serve": "webpack serve",
     "dev": "concurrently --names \"WEBPACK,JEST\" --prefix-colors \"blue,green\" \"npm run serve\" \"npm run test\"",
     "build": "webpack",
