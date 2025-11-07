@@ -16,4 +16,16 @@ export default class Clue {
       console.error("Invalid name: Name must be a non-empty string.");
     }
   }
+
+  get information() {
+    return this._information;
+  }
+
+  set information(newInformation) {
+    if (typeof newInformation === "string" && newInformation.trim() !== "") {
+      this._information = newInformation;
+    } else {
+      console.error("Invalid information: Information must be a non-empty string.");
+    }
+  }
 }
