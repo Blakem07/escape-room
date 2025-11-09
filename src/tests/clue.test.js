@@ -15,7 +15,7 @@ describe("Clue Class Tests", () => {
     jest.restoreAllMocks();
   });
 
-  test("Clue Class should not set name if it is not a string", () => {
+  test("Clue.name should not set name if it is not a string", () => {
     const invalidValues = [1234, null, undefined, {}, [], true];
 
     invalidValues.forEach((value) => {
@@ -53,4 +53,10 @@ describe("Clue Class Tests", () => {
       );
     });
   });
+
+  test("Clue.discover() sets isFound to true",  () => {
+    expect(clue.isFound).toBe(false)
+    clue.discover()
+    expect(clue.isFound).toBe(true)
+  })
 });
