@@ -2,17 +2,23 @@
  * Represents a clue in the game.
  *
  * A Clue has a name, descriptive information, and a state indicating whether
- * it has been discovered. This class encapsulates the data and behavior 
+ * it has been discovered. This class encapsulates the data and behavior
  * associated with a clue, including marking it as found.
  *
- * Example usage:
- * const clue = new Clue("Handwritten Note", "The the first number on the lock is 1");
+ * @example
+ * const clue = new Clue("Handwritten Note", "The first number on the lock is 1");
  * console.log(clue.isFound); // false
  * clue.discover();
  * console.log(clue.isFound); // true
  *
+ * @class
  */
 export default class Clue {
+  /**
+   * Creates a new Clue.
+   * @param {string} name - The name of the clue.
+   * @param {string} information - Descriptive information about the clue.
+   */
   constructor(name, information) {
     this.name = name;
     this.information = information;
@@ -59,9 +65,11 @@ export default class Clue {
 
   /**
    * Marks the clue as discovered.
-   * 
+   *
    * Sets isFound to true, if the clue has not been found.
-  */
+   * 
+   * @returns {void}
+   */
   discover() {
     if (!this.isFound) {
       this.isFound = true;
