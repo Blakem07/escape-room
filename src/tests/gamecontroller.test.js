@@ -1,5 +1,6 @@
 import GameController from "../classes/GameController";
 import Clue from "../classes/Clue";
+import Lock from "../classes/lock";
 
 describe("GameController class tests", () => {
 
@@ -32,4 +33,38 @@ describe("GameController class tests", () => {
         expect(gamecontroller.clueCount).toBe(0);
     });
 
+    test("GameController constructor: default clues and lock are created when no arguments are provided", () => {
+      const gamecontroller = new GameController();
+      expect(gamecontroller.clues).toHaveLength(3);
+      expect(gamecontroller.clues[0]).toBeInstanceOf(Clue);
+      expect(gamecontroller.clues[1]).toBeInstanceOf(Clue);
+      expect(gamecontroller.clues[2]).toBeInstanceOf(Clue);
+      expect(gamecontroller.lock).toBeInstanceOf(Lock);
+      expect(console.error).not.toHaveBeenCalled();
+    });
+
+    test("GameController constructor: accepts passed Clue and Lock instances", () => {
+      const clue1 = new Clue("clue 1", "test clue 1");
+      const clue2 = new Clue("clue 2", "test clue 2");
+      const clue3 = new Clue("clue 3", "test clue 3");
+      const lock = new Lock(9999, "test lock");
+
+      const gamecontroller = new GameController(clue1, clue2, clue3, lock);
+
+      expect(gamecontroller.clues).toHaveLength(3);
+      // should preserve the passed instances
+      expect(gamecontroller.clues[0]).toBe(clue1);
+      expect(gamecontroller.clues[1]).toBe(clue2);
+      expect(gamecontroller.clues[2]).toBe(clue3);
+      expect(gamecontroller.lock).toBe(lock);
+      expect(console.error).not.toHaveBeenCalled();
+    });
+
+    test("GameController.playGame ends the game when the correct lock solution is given", async () => {
+      let input = jest.spyOn(gamecontroller, 'getInput').mockResolvedValueOnce(["lock", 1111]);
+
+      await gamecontroller.playGame();
+      expect(gamecontroller.gameComplete).toBe(true);
+
+    });
 });
