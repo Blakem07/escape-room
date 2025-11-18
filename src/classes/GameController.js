@@ -6,6 +6,11 @@ import Lock from "./lock";
  * percentage, and game completion.
  *
  * @class GameController
+ * 
+ * @param {Clue} clue1 - first clue
+ * @param {Clue} clue1 - second clue
+ * @param {Clue} clue1 - third clue
+ * @param {Lock} lock - lock instance containing the solution to the puzzle
  */
 export default class GameController {
     constructor(
@@ -28,7 +33,7 @@ export default class GameController {
             this._clue1 = new Clue("default clue 1", "default clue if no parameter is given");
             this._clue2 = new Clue("default clue 2", "default clue if no parameter is given");
             this._clue3 = new Clue("default clue 3", "default clue if no parameter is given");
-            this._lock = new Lock(111, "number lock");
+            this._lock = new Lock(1111, "number lock");
         }
         this._clues = [this._clue1, this._clue2, this._clue3];
         
@@ -70,7 +75,6 @@ export default class GameController {
     increaseClueCount(clue){
         if(clue instanceof Clue && !clue.isFound){
             this.clueCount += 1;
-            clue.isFound = true;
         }else if(clue instanceof Clue && clue.isFound ){
             console.error("Duplicate error: This clue has already been found once.");
         }else{
@@ -104,18 +108,8 @@ export default class GameController {
         while(!this.gameComplete){
             //for now lets assume we get input as an array containing: {clue/lock, cluename/locksolution}
             let input = await this.getInput();
-            let foundClueIndex;
-            if(Array.isArray(input) && input.at(0) === "clue"){
-                this.clues.forEach((clue, i) => {
-                    if(input.at(1) === clue.name){
-                        foundClueIndex = i;
-                    }
-                })
-                this.increaseClueCount(this.clues.at(foundClueIndex));
-            }else if(Array.isArray(input) && input.at(0) === "lock"){
-                if(this.lock.checkSolution(input.at(1))){
-                    this.completeGame();
-                }
+            if(this.lock.checkSolution(input)){
+                this.completeGame();
             }
         }
     }

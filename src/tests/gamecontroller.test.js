@@ -5,11 +5,17 @@ import Lock from "../classes/lock";
 describe("GameController class tests", () => {
 
     let gamecontroller;
-    let clue;
+    let clue1;
+    let clue2;
+    let clue3;
+    let lock;
 
     beforeEach(() => {
-        gamecontroller = new GameController();
-        clue = new Clue("clue 1", "test clue");
+        clue1 = new Clue("clue 1", "test clue");
+        clue2 = new Clue("clue 2", "test clue");
+        clue3 = new Clue("clue 3", "test clue");
+        lock = new Lock(1234, "combination lock");
+        gamecontroller = new GameController(clue1, clue2, clue3, lock);
         jest.spyOn(console, "error").mockImplementation(() => {});
       });
     
@@ -17,11 +23,23 @@ describe("GameController class tests", () => {
         jest.restoreAllMocks();
       });
 
+    test("GameController only lets you initialise it if given clues and a lock or uses default parameters", () => {
+      let testController = new GameController(1, "something", 3, "test input");
+      expect(testController.clues.at(0).name).toBe("default clue 1");
+      expect(testController.lock.solution).toBe(1111);
+
+      testController = new GameController(clue1, clue2, clue3, lock);
+      expect(testController.clues.at(0).name).toBe("clue 1");
+      expect(testController.lock.solution).toBe(1234);
+    });
+
     test("GameController.increaseClueCount() should only increase the count if isFound is false", () => {
-        gamecontroller.increaseClueCount(clue);
+
+        gamecontroller.increaseClueCount(clue1);
         //check if it properly incremented clueCount
         expect(gamecontroller.clueCount).toBe(1);
-        gamecontroller.increaseClueCount(clue);
+        gamecontroller.clues.at(0).discover();
+        gamecontroller.increaseClueCount(clue1);
         //check if error has been thrown for duplicate clue
         expect(console.error).toHaveBeenCalledWith("Duplicate error: This clue has already been found once.");
     });
@@ -61,7 +79,7 @@ describe("GameController class tests", () => {
     });
 
     test("GameController.playGame ends the game when the correct lock solution is given", async () => {
-      let input = jest.spyOn(gamecontroller, 'getInput').mockResolvedValueOnce(["lock", 1111]);
+      jest.spyOn(gamecontroller, 'getInput').mockResolvedValueOnce(1234);
 
       await gamecontroller.playGame();
       expect(gamecontroller.gameComplete).toBe(true);
