@@ -86,7 +86,6 @@ export default class GameController {
      * @returns {void}
      */
     completeGame(){
-        console.log("completeGame called");
         this._gameComplete = true;
     }
 
@@ -114,7 +113,6 @@ export default class GameController {
                 })
                 this.increaseClueCount(this.clues.at(foundClueIndex));
             }else if(Array.isArray(input) && input.at(0) === "lock"){
-                console.log("array + lock");
                 if(this.lock.checkSolution(input.at(1))){
                     this.completeGame();
                 }
