@@ -30,10 +30,10 @@ export default class UI {
    * @param {Function} closeCallBack - The callback function to be called on click
    * @returns {HTMLButtonElement} - The created close button element
    */
-  createCloseButton(closeCallBack) {
+  createCloseButton(closeCallBack, text = "Close") {
     const closeButton = document.createElement("button");
     closeButton.classList.add("popup-button");
-    closeButton.innerText = "Close";
+    closeButton.innerText = text;
 
     closeButton.addEventListener("click", () => {
       closeCallBack();
