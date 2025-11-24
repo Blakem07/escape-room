@@ -16,6 +16,14 @@ export default class UI {
     const popup = document.createElement("div");
     popup.classList.add("popup");
 
+    if (options.content && typeof options.content === "string") {
+      const popupContent = document.createElement("div");
+
+      popupContent.classList.add("popup-content");
+      popupContent.innerHTMl = options.content;
+      popup.appendChild(popupContent);
+    }
+
     if (options.closeCallBack) {
       const closeButton = this.createCloseButton(options.closeCallBack);
       popup.appendChild(closeButton);
