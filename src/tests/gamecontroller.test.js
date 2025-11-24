@@ -71,7 +71,7 @@ describe("GameController class tests", () => {
 
       const gamecontroller = new GameController(clue1, clue2, clue3, clue4, lock);
 
-      expect(gamecontroller.clues).toHaveLength(3);
+      expect(gamecontroller.clues).toHaveLength(4);
       // should preserve the passed instances
       expect(gamecontroller.clues[0]).toBe(clue1);
       expect(gamecontroller.clues[1]).toBe(clue2);
