@@ -31,6 +31,36 @@ describe("UI Class Tests", () => {
     expect(popup.classList).toContain("popup");
   });
 
+  test("UI.createPopup handles content options", () => {
+    const popup = ui.createPopup({ content: "<div></div>" });
+    const popupContent = popup.querySelector(".popup-content");
+
+    expect(popupContent instanceof HTMLDivElement).toBe(true);
+    expect(popup.childNodes).toContain(popupContent);
+  });
+
+  test("UI.createPopup handles non string content options", () => {
+    const invalidInputs = [
+      123,
+      true,
+      null,
+      undefined,
+      { text: "Hello" },
+      ["Hello", "World"],
+      function () {
+        return "Hi";
+      },
+    ];
+
+    invalidInputs.forEach((input) => {
+      const popup = ui.createPopup({ content: input });
+      const popupContent = popup.querySelector(".popup-content");
+
+      expect(popupContent instanceof HTMLDivElement).toBe(false);
+      expect(popup.childNodes).not.toContain(popupContent);
+    });
+  });
+
   test("UI.createPopup handles closeCallBack options correctly", () => {
     const popup = ui.createPopup({ closeCallBack: closeCallbackMock });
 
