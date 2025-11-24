@@ -9,10 +9,14 @@ describe("UI Class Tests", () => {
 
   let createPopupSpy;
 
+  let closeCallbackMock;
+
   beforeEach(() => {
     ui = new UI();
 
     createPopupSpy = jest.spyOn(ui, "createPopup");
+
+    closeCallbackMock = jest.fn();
   });
 
   afterEach(() => {
@@ -38,7 +42,9 @@ describe("UI Class Tests", () => {
     expect(closeCallBack).toHaveBeenCalledTimes(1);
   });
 
-  test("UI.createCloseButton returns a button with an event listner calling the provided callback", () => {
+  // Tests for createCloseButton
+
+  test("UI.createCloseButton returns a button with an event listener calling the provided callback", () => {
     const closeCallBack = jest.fn();
     const closeButton = ui.createCloseButton(closeCallBack);
 
@@ -48,5 +54,18 @@ describe("UI Class Tests", () => {
 
     expect(closeCallBack).toHaveBeenCalled();
     expect(closeCallBack).toHaveBeenCalledTimes(1);
+  });
+
+  test("UI.createCloseButton sets default text when no argument is given", () => {
+    const closeButton = ui.createCloseButton(closeCallbackMock);
+
+    expect(closeButton.innerText).toBe("Close");
+  });
+
+  test("UI.createCloseButton returns a button correct text", () => {
+    const buttonText = "Start";
+    const closeButton = ui.createCloseButton(closeCallbackMock, buttonText);
+
+    expect(closeButton.innerText).toEqual(buttonText);
   });
 });
