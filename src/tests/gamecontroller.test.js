@@ -3,12 +3,11 @@ import Clue from "../classes/Clue";
 import Lock from "../classes/lock";
 
 describe("GameController class tests", () => {
-
-    let gamecontroller;
-    let clue1;
-    let clue2;
-    let clue3;
-    let lock;
+  let gamecontroller;
+  let clue1;
+  let clue2;
+  let clue3;
+  let lock;
 
     beforeEach(() => {
         clue1 = new Clue("clue 1", "test clue");
@@ -44,12 +43,14 @@ describe("GameController class tests", () => {
         expect(console.error).toHaveBeenCalledWith("Duplicate error: This clue has already been found once.");
     });
 
-    test("GameController.increaseClueCount() should only increase the count if the given parameter is a clue", () => {
-        gamecontroller.increaseClueCount(1);
-        expect(console.error).toHaveBeenCalledWith("Invalid clue: Given parameter is not a Clue.");
-        //check if it left the clueCount as is
-        expect(gamecontroller.clueCount).toBe(0);
-    });
+  test("GameController.increaseClueCount() should only increase the count if the given parameter is a clue", () => {
+    gamecontroller.increaseClueCount(1);
+    expect(console.error).toHaveBeenCalledWith(
+      "Invalid clue: Given parameter is not a Clue."
+    );
+    //check if it left the clueCount as is
+    expect(gamecontroller.clueCount).toBe(0);
+  });
 
     test("GameController constructor: default clues and lock are created when no arguments are provided", () => {
       const gamecontroller = new GameController();
@@ -80,11 +81,10 @@ describe("GameController class tests", () => {
       expect(console.error).not.toHaveBeenCalled();
     });
 
-    test("GameController.playGame ends the game when the correct lock solution is given", async () => {
-      jest.spyOn(gamecontroller, 'getInput').mockResolvedValueOnce(1234);
+  test("GameController.playGame ends the game when the correct lock solution is given", async () => {
+    jest.spyOn(gamecontroller, "getInput").mockResolvedValueOnce(1234);
 
-      await gamecontroller.playGame();
-      expect(gamecontroller.gameComplete).toBe(true);
-
-    });
+    await gamecontroller.playGame();
+    expect(gamecontroller.gameComplete).toBe(true);
+  });
 });

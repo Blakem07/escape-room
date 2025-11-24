@@ -6,7 +6,7 @@ import Lock from "./lock";
  * percentage, and game completion.
  *
  * @class GameController
- * 
+ *
  * @param {Clue} clue1 - first clue
  * @param {Clue} clue2 - second clue
  * @param {Clue} clue3 - third clue
@@ -43,29 +43,29 @@ export default class GameController {
         
     }
 
-    get gameComplete(){
-        return this._gameComplete;
-    }
+  get gameComplete() {
+    return this._gameComplete;
+  }
 
-    get progressionPercentage(){
-        return this._progressionPercentage;
-    }
+  get progressionPercentage() {
+    return this._progressionPercentage;
+  }
 
-    get clues(){
-        return this._clues;
-    }
+  get clues() {
+    return this._clues;
+  }
 
-    get lock(){
-        return this._lock;
-    }
+  get lock() {
+    return this._lock;
+  }
 
-   set progressionPercentage(value){
+  set progressionPercentage(value) {
     this._progressionPercentage = value;
-   }
-   
-   set gameComplete(value){
+  }
+
+  set gameComplete(value) {
     this._gameComplete = value;
-   }
+  }
 
     /**
      * Attempt to mark a Clue as found and increase the clue count
@@ -89,33 +89,32 @@ export default class GameController {
         return this.clueCount;
     }
 
-    /**
-     * Mark the game as complete.
-     * 
-     * @returns {void}
-     */
-    completeGame(){
-        this._gameComplete = true;
-    }
+  /**
+   * Mark the game as complete.
+   *
+   * @returns {void}
+   */
+  completeGame() {
+    this._gameComplete = true;
+  }
 
-    getInput(){
-        return 0;
-    }
+  getInput() {
+    return 0;
+  }
 
-    /**
-     * Main game loop that processes player actions until the game is complete.
-     * 
-     * 
-     * @returns {void}
-     */
-    async playGame(){
-
-        while(!this.gameComplete){
-            //for now lets assume we get input as an array containing: {clue/lock, cluename/locksolution}
-            let input = await this.getInput();
-            if(this.lock.checkSolution(input)){
-                this.completeGame();
-            }
-        }
+  /**
+   * Main game loop that processes player actions until the game is complete.
+   *
+   *
+   * @returns {void}
+   */
+  async playGame() {
+    while (!this.gameComplete) {
+      //for now lets assume we get input as an array containing: {clue/lock, cluename/locksolution}
+      let input = await this.getInput();
+      if (this.lock.checkSolution(input)) {
+        this.completeGame();
+      }
     }
+  }
 }
