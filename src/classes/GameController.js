@@ -8,8 +8,9 @@ import Lock from "./lock";
  * @class GameController
  * 
  * @param {Clue} clue1 - first clue
- * @param {Clue} clue1 - second clue
- * @param {Clue} clue1 - third clue
+ * @param {Clue} clue2 - second clue
+ * @param {Clue} clue3 - third clue
+ * @param {Clue} clue4 - fourth clue
  * @param {Lock} lock - lock instance containing the solution to the puzzle
  */
 export default class GameController {
@@ -17,15 +18,17 @@ export default class GameController {
         clue1 = new Clue("default clue 1", "default clue if no parameter is given"), 
         clue2 = new Clue("default clue 2", "default clue if no parameter is given"), 
         clue3 = new Clue("default clue 3", "default clue if no parameter is given"), 
+        clue4 = new Clue("default clue 4", "default clue if no parameter is given"), 
         lock = new Lock(1111, "number lock")
     ){
         this.clueCount = 0;
         this._progressionPercentage = 0;
         this._gameComplete = false;
-        if(clue1 instanceof Clue && clue2 instanceof Clue && clue3 instanceof Clue && lock instanceof Lock){
+        if(clue1 instanceof Clue && clue2 instanceof Clue && clue3 instanceof Clue && clue4 instanceof Clue && lock instanceof Lock){
             this._clue1 = clue1;
             this._clue2 = clue2;
             this._clue3 = clue3;
+            this._clue4 = clue4;
             this._lock = lock;
         }else{
             console.error("Parameter error: passed clues or locks are not instances of the clue or lock class.");
@@ -33,9 +36,10 @@ export default class GameController {
             this._clue1 = new Clue("default clue 1", "default clue if no parameter is given");
             this._clue2 = new Clue("default clue 2", "default clue if no parameter is given");
             this._clue3 = new Clue("default clue 3", "default clue if no parameter is given");
+            this._clue4 = new Clue("default clue 4", "default clue if no parameter is given");
             this._lock = new Lock(1111, "number lock");
         }
-        this._clues = [this._clue1, this._clue2, this._clue3];
+        this._clues = [this._clue1, this._clue2, this._clue3, this._clue4];
         
     }
 
@@ -74,6 +78,7 @@ export default class GameController {
      */
     increaseClueCount(clue){
         if(clue instanceof Clue && !clue.isFound){
+            clue.discover();
             this.clueCount += 1;
         }else if(clue instanceof Clue && clue.isFound ){
             console.error("Duplicate error: This clue has already been found once.");
