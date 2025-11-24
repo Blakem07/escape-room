@@ -32,14 +32,13 @@ describe("UI Class Tests", () => {
   });
 
   test("UI.createPopup handles closeCallBack options correctly", () => {
-    const closeCallBack = jest.fn();
-    const popup = ui.createPopup({ closeCallBack });
+    const popup = ui.createPopup({ closeCallBack: closeCallbackMock });
 
     const closeButton = popup.querySelector(".popup-button");
     closeButton.click();
 
-    expect(closeCallBack).toHaveBeenCalled();
-    expect(closeCallBack).toHaveBeenCalledTimes(1);
+    expect(closeCallbackMock).toHaveBeenCalled();
+    expect(closeCallbackMock).toHaveBeenCalledTimes(1);
   });
 
   // Tests for createCloseButton
@@ -67,5 +66,37 @@ describe("UI Class Tests", () => {
     const closeButton = ui.createCloseButton(closeCallbackMock, buttonText);
 
     expect(closeButton.innerText).toEqual(buttonText);
+  });
+
+  // Tests for closePopup
+
+  test("UI.closePopup removes the closest element containing the popup class", () => {
+    const popup = ui.createPopup({ closeCallBack: ui.closePopup });
+    const closeButton = popup.querySelector(".popup-button");
+
+    document.body.appendChild(popup);
+    expect(document.body.childNodes).toContain(popup);
+
+    closeButton.click();
+    expect(document.body.childNodes).not.toContain(popup);
+  });
+
+  test("UI.closePopup handles non existing popup elements gracefully", () => {
+    expect(() => {
+      ui.closePopup(null);
+    }).not.toThrow(TypeError);
+  });
+
+  test("UI.closePopup removes works corretly on elements not appended directly to body", () => {
+    const popup = ui.createPopup({ closeCallBack: ui.closePopup });
+    const closeButton = popup.querySelector(".popup-button");
+    const subBody = document.createElement("div");
+
+    document.body.appendChild(subBody);
+    subBody.appendChild(popup);
+
+    expect(subBody.childNodes).toContain(popup);
+    closeButton.click();
+    expect(subBody.childNodes).not.toContain(popup);
   });
 });

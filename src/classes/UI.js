@@ -35,10 +35,27 @@ export default class UI {
     closeButton.classList.add("popup-button");
     closeButton.innerText = text;
 
-    closeButton.addEventListener("click", () => {
-      closeCallBack();
+    closeButton.addEventListener("click", (event) => {
+      closeCallBack(event);
     });
 
     return closeButton;
+  }
+
+  /**
+   * A Callback function which closes the nearest element
+   * containing the popup class.
+   *
+   * @param {Event} - The event that triggered the close action
+   * @returns {Void}
+   */
+  closePopup(event) {
+    if (!event) return;
+
+    const popup = event.target.closest(".popup");
+
+    if (popup) {
+      popup.remove();
+    }
   }
 }
