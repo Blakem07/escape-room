@@ -10,6 +10,7 @@ describe("UI Class Tests", () => {
   let createPopupSpy;
 
   let closeCallbackMock;
+  let createComponentMock;
 
   beforeEach(() => {
     ui = new UI();
@@ -17,6 +18,11 @@ describe("UI Class Tests", () => {
     createPopupSpy = jest.spyOn(ui, "createPopup");
 
     closeCallbackMock = jest.fn();
+    createComponentMock = jest.fn().mockImplementation(() => {
+      const div = document.createElement("div");
+      div.classList.add("component");
+      return div;
+    });
   });
 
   afterEach(() => {
@@ -31,15 +37,15 @@ describe("UI Class Tests", () => {
     expect(popup.classList).toContain("popup");
   });
 
-  test("UI.createPopup handles content options", () => {
-    const popup = ui.createPopup({ content: "<div></div>" });
+  test("UI.createPopup handles function content options", () => {
+    const popup = ui.createPopup({ content: createComponentMock });
     const popupContent = popup.querySelector(".popup-content");
 
     expect(popupContent instanceof HTMLDivElement).toBe(true);
     expect(popup.childNodes).toContain(popupContent);
   });
 
-  test("UI.createPopup handles non string content options", () => {
+  test("UI.createPopup handles non function content options", () => {
     const invalidInputs = [
       123,
       true,
@@ -47,9 +53,7 @@ describe("UI Class Tests", () => {
       undefined,
       { text: "Hello" },
       ["Hello", "World"],
-      function () {
-        return "Hi";
-      },
+      "hello",
     ];
 
     invalidInputs.forEach((input) => {
@@ -59,6 +63,16 @@ describe("UI Class Tests", () => {
       expect(popupContent instanceof HTMLDivElement).toBe(false);
       expect(popup.childNodes).not.toContain(popupContent);
     });
+  });
+
+  test("UI.createPopup appends content returned from content function", () => {
+    const popup = ui.createPopup({ content: createComponentMock });
+    const popupContent = popup.querySelector(".popup-content");
+    const component = popupContent.firstChild;
+
+    expect(createComponentMock).toHaveBeenCalled();
+    expect(component instanceof HTMLDivElement).toBe(true);
+    expect(component.classList).toContain("component");
   });
 
   test("UI.createPopup handles closeCallBack options correctly", () => {
