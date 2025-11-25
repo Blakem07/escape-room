@@ -9,6 +9,8 @@
  * so you can verify that your Webpack + Babel + Jest setup is working correctly.
  * -----------------------------------------------------------------------------
  */
+import UI from "./classes/UI.js";
+
 export default function App() {
   // Main container
   const app = document.createElement("div");
@@ -34,6 +36,24 @@ export default function App() {
   // Append elements
   header.appendChild(button);
   app.appendChild(header);
+
+  //////////////////////////////////////
+  //                                  //
+  //     BELOW IS TESTING THE         //
+  //           REAL APP               //
+  //                                  //
+  //////////////////////////////////////
+
+  // Currently checking popup functionality
+
+  const ui = new UI();
+
+  const testPopup = ui.createPopup({
+    overlay: ui.createBlurOverlay,
+    closeCallBack: ui.closePopup,
+  });
+
+  app.append(testPopup);
 
   document.body.appendChild(app);
 

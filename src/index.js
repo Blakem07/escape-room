@@ -10,9 +10,8 @@
  */
 
 import "./styles.css";
-import "./css-reset.css"
+import "./css-reset.css";
 
 import App from "./App.js";
 
 App();
-

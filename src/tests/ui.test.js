@@ -75,6 +75,34 @@ describe("UI Class Tests", () => {
     expect(component.classList).toContain("component");
   });
 
+  test("UI.createPopup handles size options correctly", () => {
+    const sizes = ["small", "medium", "large"];
+    sizes.forEach((size) => {
+      const popup = ui.createPopup({ size: size });
+
+      const sizeClass = `popup-${size}`;
+      expect(popup.classList).toContain(sizeClass);
+    });
+  });
+
+  test("UI.createPopup handles non string size options gracefully", () => {
+    const invalidSizes = [123, true, null, undefined, { size: "big" }, ["big"]];
+    invalidSizes.forEach((size) => {
+      const popup = ui.createPopup({ size: size });
+      const sizeClass = `popup-${size}`;
+      expect(popup.classList).not.toContain(sizeClass);
+    });
+  });
+
+  test("UI.createPopup handles incorrect string size options gracefully", () => {
+    const invalidSizes = ["heavy", "light", "blue", "red"];
+    invalidSizes.forEach((size) => {
+      const popup = ui.createPopup({ size: size });
+      const sizeClass = `popup-${size}`;
+      expect(popup.classList).not.toContain(sizeClass);
+    });
+  });
+
   test("UI.createPopup handles closeCallBack options correctly", () => {
     const popup = ui.createPopup({ closeCallBack: closeCallbackMock });
 
@@ -83,6 +111,65 @@ describe("UI Class Tests", () => {
 
     expect(closeCallbackMock).toHaveBeenCalled();
     expect(closeCallbackMock).toHaveBeenCalledTimes(1);
+  });
+
+  test("UI.createPopup handles overlay options correctly returning the overlay as the root with popup inside", () => {
+    const overlayMock = jest.fn().mockImplementation(() => {
+      const overlayDiv = document.createElement("div");
+      overlayDiv.classList.add("popup-overlay");
+      return overlayDiv;
+    });
+
+    const wrapper = ui.createPopup({ overlay: overlayMock });
+
+    // wrapper should be overlay
+    expect(wrapper.classList.contains("popup-overlay")).toBe(true);
+    expect(overlayMock).toHaveBeenCalled();
+
+    const popup = wrapper.querySelector(".popup");
+    expect(popup).not.toBeNull();
+    expect(wrapper.contains(popup)).toBe(true);
+  });
+
+  test("UI.createPopup handles non function overlay options gracefully", () => {
+    const invalidInputs = [
+      123,
+      true,
+      null,
+      undefined,
+      { text: "Hello" },
+      ["Hello", "World"],
+      "hello",
+    ];
+
+    invalidInputs.forEach((input) => {
+      const popup = ui.createPopup({ overlay: input });
+
+      // Since overlay is invalid, popup IS the root element
+      const overlayElement = popup.querySelector(".popup-overlay");
+      expect(overlayElement).toBeNull();
+      popup.childNodes.forEach((child) => {
+        expect(
+          child.classList && child.classList.contains("popup-overlay")
+        ).toBe(false);
+      });
+    });
+  });
+
+  // Tests for isValidPopupSize
+
+  test("UI.isValidPopupSize returns true for valid sizes", () => {
+    const validSizes = ["small", "medium", "large"];
+    validSizes.forEach((size) => {
+      expect(ui.isValidPopupSize(size)).toBe(true);
+    });
+  });
+
+  test("UI.isValidPopupSize returns false for invalid sizes", () => {
+    const invalidSizes = [123, true, null, undefined, "heavy", "light", "blue"];
+    invalidSizes.forEach((size) => {
+      expect(ui.isValidPopupSize(size)).toBe(false);
+    });
   });
 
   // Tests for createCloseButton
@@ -142,5 +229,28 @@ describe("UI Class Tests", () => {
     expect(subBody.childNodes).toContain(popup);
     closeButton.click();
     expect(subBody.childNodes).not.toContain(popup);
+  });
+
+  test("UI.closePopup works on popups with an overlay", () => {
+    const popup = ui.createPopup({
+      closeCallBack: ui.closePopup,
+      overlay: ui.createBlurOverlay,
+    });
+    const closeButton = popup.querySelector(".popup-button");
+
+    document.body.appendChild(popup);
+
+    expect(document.body.childNodes).toContain(popup);
+    closeButton.click();
+    expect(document.body.childNodes).not.toContain(popup);
+  });
+
+  // Tests for createBlurOverlay
+
+  test("UI.createBlurOverlay returns a div with the popup-overlay and blur classes", () => {
+    const overlay = ui.createBlurOverlay();
+    expect(overlay instanceof HTMLDivElement).toBe(true);
+    expect(overlay.classList).toContain("popup-overlay");
+    expect(overlay.classList).toContain("blur");
   });
 });

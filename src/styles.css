@@ -60,6 +60,24 @@ button {
   transition: background 0.2s, transform 0.1s;
 }
 
+.popup-overlay.blur {
+  position: fixed;
+  inset: 0;
+
+  backdrop-filter: blur(10px) brightness(0.7);
+  -webkit-backdrop-filter: blur(10px) brightness(0.7);
+
+  background: rgba(0, 0, 0, 0.35);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 999;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
 /* ========================================================================== 
    State styles 
    ========================================================================== */

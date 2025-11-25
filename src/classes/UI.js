@@ -6,15 +6,16 @@
  * @class UI
  */
 export default class UI {
-  
   /**
    * Creates a popup div element with optional content and a close button.
    *
    * @param {Object} options - The configuration options for the popup.
    * @param {Function} [options.content] - A function that returns the content to be displayed inside the popup. If provided, the popup will include this content inside a `div` with class `popup-content`.
+   * @param {string} [options.size] - An optional size class to be added to the popup (e.g., 'small', 'large').
+   * @param {Function} [options.overlay] - An optional overlay element to wrap the popup, and be returned as root.
    * @param {Function} [options.closeCallBack] - A callback function to be executed when the close button is clicked. If provided, a close button will be added to the popup.
    *
-   * @returns {HTMLDivElement} The created popup element. This is a `div` element with the class `popup`, and it may contain content and a close button based on the provided options.
+   * @returns {HTMLDivElement} The created popup element, optionally wrapped in an overlay.
    */
   createPopup(options = {}) {
     const popup = document.createElement("div");
@@ -30,12 +31,35 @@ export default class UI {
       popup.appendChild(popupContent);
     }
 
+    if (this.isValidPopupSize(options.size)) {
+      popup.classList.add(`popup-${options.size}`);
+    }
+
+    let wrapper = popup; // default return value of popup as root
+
+    if (options.overlay && typeof options.overlay === "function") {
+      const overlayElement = options.overlay();
+      overlayElement.appendChild(popup);
+      wrapper = overlayElement; // returns the overlay as root
+    }
+
     if (options.closeCallBack) {
       const closeButton = this.createCloseButton(options.closeCallBack);
       popup.appendChild(closeButton);
     }
 
-    return popup;
+    return wrapper;
+  }
+
+  /**
+   * Validates if the provided size is a valid popup size.
+   *
+   * @param {string} size - The size to be validated.
+   * @returns {boolean} True if the size is valid ('small', 'medium', 'large'), false otherwise.
+   */
+  isValidPopupSize(size) {
+    const validSizes = ["small", "medium", "large"];
+    return validSizes.includes(size);
   }
 
   /**
@@ -67,9 +91,21 @@ export default class UI {
     if (!event) return;
 
     const popup = event.target.closest(".popup");
+    const overlay = event.target.closest(".popup-overlay");
 
-    if (popup) {
-      popup.remove();
-    }
+    popup?.remove();
+    overlay?.remove();
+  }
+
+  /**
+   * Creates a div element with popup-overlay and blur classes
+   *
+   * @returns {HTMLDivElement} - The created overlay element
+   */
+  createBlurOverlay() {
+    const overlay = document.createElement("div");
+    overlay.classList.add("popup-overlay", "blur");
+
+    return overlay;
   }
 }
