@@ -10,6 +10,7 @@
  * -----------------------------------------------------------------------------
  */
 import UI from "./classes/UI.js";
+import createLockEle from "./components/createLockEle.js";
 
 export default function App() {
   // Main container
@@ -50,6 +51,7 @@ export default function App() {
 
   const testPopup = ui.createPopup({
     overlay: ui.createBlurOverlay,
+    content: createLockEle,
     closeCallBack: ui.closePopup,
   });
 
