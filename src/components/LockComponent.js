@@ -1,7 +1,7 @@
 import "./default.css";
 import "./lock.css";
 
-export default function createLockEle() {
+export default function LockComponent(onInput) {
   const wrapper = document.createElement("div");
 
   wrapper.innerHTML = `
@@ -53,5 +53,27 @@ export default function createLockEle() {
     </div>
   `;
 
+  const inputButtons = wrapper.querySelectorAll(
+    '.numKey[data-key]:not([data-key="Enter"]):not([data-key="Clear"])'
+  );
+  handleOnInput(inputButtons, onInput);
+
   return wrapper.firstElementChild; // returns <div class="Container">
+}
+
+/**
+ * Attaches an `onInput` callback function to a collection of buttons.
+ *
+ * When a button is clicked, the callback is called with the button's
+ * `data-key` attribute value as its argument.
+ *
+ * @param {NodeListOf<HTMLButtonElement>} inputButtons - A NodeList of button elements to attach the listener to.
+ * @param {(key: string) => void} onInput - A callback function that receives the key pressed as a string.
+ */
+function handleOnInput(inputButtons, onInput) {
+  inputButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      onInput(e.target.dataset.key);
+    });
+  });
 }
