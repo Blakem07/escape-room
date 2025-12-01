@@ -8,11 +8,13 @@ describe("LockComponent tests", () => {
 
   let onInputMock;
   let onEnterMock;
+  let onClearMock;
 
   let lockComponent;
   let component;
   let inputButtons;
   let enterButton;
+  let clearButton;
 
   beforeEach(() => {
     validHTML = `
@@ -65,13 +67,15 @@ describe("LockComponent tests", () => {
   `;
     onInputMock = jest.fn();
     onEnterMock = jest.fn();
+    onClearMock = jest.fn();
 
-    lockComponent = new LockComponent(onInputMock, onEnterMock);
+    lockComponent = new LockComponent(onInputMock, onEnterMock, onClearMock);
     component = lockComponent.render();
     inputButtons = component.querySelectorAll(
       '.numKey[data-key]:not([data-key="Enter"]):not([data-key="Clear"])'
     );
     enterButton = component.querySelector(".numEnter");
+    clearButton = component.querySelector(".numClear");
   });
 
   afterEach(() => {
@@ -91,8 +95,13 @@ describe("LockComponent tests", () => {
     });
   });
 
-  test("LockComponent takes onEnter as an argument attaches it to trigger on click", () => {
+  test("LockComponent takes onEnter as an argument and attaches it to trigger on click", () => {
     enterButton.click();
     expect(onEnterMock).toHaveBeenCalled();
+  });
+
+  test("LockComponent takes onClear as an argument and attaches it to trigger on click", () => {
+    clearButton.click();
+    expect(onClearMock).toHaveBeenCalled();
   });
 });

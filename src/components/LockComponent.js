@@ -1,10 +1,23 @@
 import "./default.css";
 import "./lock.css";
 
+/**
+ * UI component that renders a numeric lock keypad.
+ *
+ * Provides buttons for digits (0–9), Clear, and Enter, and forwards user actions
+ * to the callbacks passed into the constructor. The component contains no lock logic:
+ * it only emits input events.
+ *
+ * @class
+ * @param {function(string):void} onInput  Called when a digit key is pressed.
+ * @param {function():void}        onEnter Called when Enter is pressed.
+ * @param {function():void}        onClear Called when Clear is pressed.
+ */
 export default class LockComponent {
-  constructor(onInput, onEnter) {
+  constructor(onInput, onEnter, onClear) {
     this.onInput = onInput;
     this.onEnter = onEnter;
+    this.onClear = onClear;
     this.wrapper = document.createElement("div");
 
     this.wrapper.innerHTML = `
@@ -58,6 +71,7 @@ export default class LockComponent {
 
     this._attachInputHandlers();
     this._attachEnterHandler();
+    this._attachClearHandler();
   }
 
   /**
@@ -104,6 +118,19 @@ export default class LockComponent {
     const enterButton = this.wrapper.querySelector(".numEnter");
     enterButton.addEventListener("click", () => {
       this.onEnter();
+    });
+  }
+  /**
+   * Attaches a click handler to the Clear button.
+   * When clicked, it triggers `onClear()`, which clears the
+   * code tracked internally by the Lock (no arguments needed).
+   *
+   * @return {void}
+   */
+  _attachClearHandler() {
+    const clearButton = this.wrapper.querySelector(".numClear");
+    clearButton.addEventListener("click", () => {
+      this.onClear();
     });
   }
 }
