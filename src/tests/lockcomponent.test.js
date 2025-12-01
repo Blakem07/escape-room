@@ -82,7 +82,7 @@ describe("LockComponent tests", () => {
     jest.restoreAllMocks();
   });
 
-  test("LockComponent returns a div element containing the correct html", () => {
+  test("LockComponent.render() returns a div element containing the correct html", () => {
     expect(component instanceof HTMLDivElement).toBe(true);
     const normalizeHTML = (html) => html.replace(/\s+/g, " ").trim();
     expect(normalizeHTML(component.outerHTML)).toBe(normalizeHTML(validHTML));
