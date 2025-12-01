@@ -49,9 +49,11 @@ export default function App() {
 
   const ui = new UI();
 
+  const lockComponent = new LockComponent((e) => console.log(e));
+
   const testPopup = ui.createPopup({
     overlay: ui.createBlurOverlay,
-    content: LockComponent,
+    content: lockComponent.render.bind(lockComponent),
     closeCallBack: ui.closePopup,
   });
 

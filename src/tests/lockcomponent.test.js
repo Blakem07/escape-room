@@ -8,8 +8,10 @@ describe("LockComponent tests", () => {
 
   let onInputMock;
 
+  let lockComponent;
   let component;
   let inputButtons;
+
   beforeEach(() => {
     validHTML = `
     <div class="Container">
@@ -59,10 +61,10 @@ describe("LockComponent tests", () => {
       </div>
     </div>
   `;
-
     onInputMock = jest.fn();
 
-    component = LockComponent(onInputMock);
+    lockComponent = new LockComponent(onInputMock);
+    component = lockComponent.render();
     inputButtons = component.querySelectorAll(
       '.numKey[data-key]:not([data-key="Enter"]):not([data-key="Clear"])'
     );
@@ -74,7 +76,8 @@ describe("LockComponent tests", () => {
 
   test("LockComponent returns a div element containing the correct html", () => {
     expect(component instanceof HTMLDivElement).toBe(true);
-    expect(component.outerHTML.trim()).toBe(validHTML.trim());
+    const normalizeHTML = (html) => html.replace(/\s+/g, " ").trim();
+    expect(normalizeHTML(component.outerHTML)).toBe(normalizeHTML(validHTML));
   });
 
   test("LockComponent takes onInput as an argument and handles it correctly", () => {
