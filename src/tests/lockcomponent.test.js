@@ -7,10 +7,12 @@ describe("LockComponent tests", () => {
   let validHTML;
 
   let onInputMock;
+  let onEnterMock;
 
   let lockComponent;
   let component;
   let inputButtons;
+  let enterButton;
 
   beforeEach(() => {
     validHTML = `
@@ -62,12 +64,14 @@ describe("LockComponent tests", () => {
     </div>
   `;
     onInputMock = jest.fn();
+    onEnterMock = jest.fn();
 
-    lockComponent = new LockComponent(onInputMock);
+    lockComponent = new LockComponent(onInputMock, onEnterMock);
     component = lockComponent.render();
     inputButtons = component.querySelectorAll(
       '.numKey[data-key]:not([data-key="Enter"]):not([data-key="Clear"])'
     );
+    enterButton = component.querySelector(".numEnter");
   });
 
   afterEach(() => {
@@ -80,10 +84,15 @@ describe("LockComponent tests", () => {
     expect(normalizeHTML(component.outerHTML)).toBe(normalizeHTML(validHTML));
   });
 
-  test("LockComponent takes onInput as an argument and handles it correctly", () => {
+  test("LockComponent takes onInput as an argument and attaches it to trigger on click", () => {
     inputButtons.forEach((btn) => {
       btn.click();
       expect(onInputMock).toHaveBeenCalledWith(btn.dataset.key);
     });
+  });
+
+  test("LockComponent takes onEnter as an argument attaches it to trigger on click", () => {
+    enterButton.click();
+    expect(onEnterMock).toHaveBeenCalled();
   });
 });

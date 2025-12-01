@@ -2,8 +2,9 @@ import "./default.css";
 import "./lock.css";
 
 export default class LockComponent {
-  constructor(onInput) {
+  constructor(onInput, onEnter) {
     this.onInput = onInput;
+    this.onEnter = onEnter;
     this.wrapper = document.createElement("div");
 
     this.wrapper.innerHTML = `
@@ -56,11 +57,14 @@ export default class LockComponent {
     `;
 
     this._attachInputHandlers();
+    this._attachEnterHandler();
   }
 
   /**
    * Attaches click handlers to numeric keys (excluding Enter and Clear).
    * Calls the `onInput` callback when a key is pressed.
+   *
+   * @return {void}
    */
   _attachInputHandlers() {
     const inputButtons = this.wrapper.querySelectorAll(
@@ -79,11 +83,27 @@ export default class LockComponent {
   /**
    * Returns the main element of the lock component.
    *
-   * Be careful when passing this method as a callback
+   * Be careful when passing this method as a callback.
    * It must be bound to the instance (e.g. lockComponent.render.bind(lockComponent))
-   * or wrapped in an arrow function, otherwise `.this` will be undefined.
+   * or wrapped in an arrow function, otherwise `this` will be undefined.
+   *
+   * @return {HTMLElement} The root DOM element of the lock component.
    */
   render() {
     return this.wrapper.firstElementChild;
+  }
+
+  /**
+   * Attaches a click handler to the Enter button.
+   * When clicked, it triggers `onEnter()`, which submits
+   * the code tracked internally by the Lock (no arguments needed).
+   *
+   * @return {void}
+   */
+  _attachEnterHandler() {
+    const enterButton = this.wrapper.querySelector(".numEnter");
+    enterButton.addEventListener("click", () => {
+      this.onEnter();
+    });
   }
 }
