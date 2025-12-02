@@ -11,6 +11,7 @@
  */
 import UI from "./classes/UI.js";
 import LockComponent from "./components/LockComponent.js";
+import MenuComponent from "./components/MenuComponent.js";
 
 export default function App() {
   // Main container
@@ -45,20 +46,30 @@ export default function App() {
   //                                  //
   //////////////////////////////////////
 
-  // Currently checking popup functionality
+  // Currently checking components
 
   const ui = new UI();
 
   const lockComponent = new LockComponent((e) => console.log(e));
+  const menuComponent = new MenuComponent();
+
+  const content = [
+    lockComponent.render.bind(lockComponent),
+    menuComponent.render.bind(menuComponent),
+  ];
+  const overlay = [
+    ui.createBlurOverlay,
+    () => ui.createImageOverlay(menuComponent.bgImage),
+  ];
+  const select = 0; //  <---- change between 0 and 1 to test different options ----> //
 
   const testPopup = ui.createPopup({
-    overlay: ui.createBlurOverlay,
-    content: lockComponent.render.bind(lockComponent),
+    overlay: overlay[select],
+    content: content[select],
     closeCallBack: ui.closePopup,
   });
 
   app.append(testPopup);
-
   document.body.appendChild(app);
 
   return app;
