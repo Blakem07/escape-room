@@ -10,14 +10,13 @@ describe("MenuComponent Class Tests", () => {
   let component;
 
   beforeEach(() => {
-    validHTML = `    <div class="menuContainer">
+    validHTML = `        <div class="menuContainer">
       <h1 class="mainTitle">EXIT Newcastle</h1>
 
       <div class="lowerMenu">
         <p>Not ready to try the real thing?</p>
         <p>Have a go at this interactive game to get you start!</p>
         <p>Can you escape?</p>
-        <button class="startBtn">START</button>
       </div>
     </div>`;
 
@@ -26,6 +25,11 @@ describe("MenuComponent Class Tests", () => {
   });
   afterEach(() => {
     jest.restoreAllMocks();
+  });
+
+  test("MenuComponent should initialize wrapper and bgImage properties", () => {
+    expect(menuComponent.wrapper instanceof HTMLDivElement).toBe(true);
+    expect(typeof menuComponent.bgImage).toBeDefined();
   });
 
   test("MenuComponent.render() returns a div with the correct html", () => {

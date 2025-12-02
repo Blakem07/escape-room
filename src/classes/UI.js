@@ -110,9 +110,19 @@ export default class UI {
   }
 
   /**
-   *  Creates a div element with popup-overlay and image-overlay classes
+   * Creates an overlay <div> with popup-overlay and image-overlay classes,
+   * and applies the given image URL as its background.
    *
-   * @returns {HTMLDivElement} - The created overlay element
+   * @example
+   * When passing this method as an option to other functions (e.g. createPopup),
+   * you must wrap it in an arrow function so it is executed later, not immediately:
+   *
+   *    () => ui.createImageOverlay(bgUrl)
+   *
+   * This ensures the overlay is created at the correct time and with the correct image URL.
+   *
+   * @param {string} imgUrl - The URL of the background image.
+   * @returns {HTMLDivElement} The created overlay element.
    */
   createImageOverlay(imgUrl) {
     const overlay = document.createElement("div");

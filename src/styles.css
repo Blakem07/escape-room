@@ -60,12 +60,21 @@ button {
   transition: background 0.2s, transform 0.1s;
 }
 
-.popup-overlay.blur {
+.popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0;
+  gap: 1rem;
+}
+
+.popup-button {
+  max-width: fit-content;
+}
+
+.popup-overlay {
   position: fixed;
   inset: 0;
-
-  backdrop-filter: blur(10px) brightness(0.7);
-  -webkit-backdrop-filter: blur(10px) brightness(0.7);
 
   background: rgba(0, 0, 0, 0.35);
 
@@ -78,11 +87,14 @@ button {
   transition: opacity 0.25s ease;
 }
 
-.popup {
-  display: flex;
-  flex-direction: column;
-  flex: 0;
-  gap: 1rem;
+.blur {
+  backdrop-filter: blur(10px) brightness(0.7);
+  -webkit-backdrop-filter: blur(10px) brightness(0.7);
+}
+
+.image-overlay {
+  background-size: cover;
+  background-position: center;
 }
 
 /* ========================================================================== 

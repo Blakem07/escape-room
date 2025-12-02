@@ -1,61 +1,57 @@
-body{
-    background-image: url(../images/image.jpg) !important;
-    background-repeat: no-repeat;
-    background-attachment: fixed; 
-    background-size: 100% 100%;
-    color: white !important;
+body {
+  color: white !important;
 }
 
 /* ================================
            MENU COMPONENT
 ================================ */
 
-.menuContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
-    padding: 2rem 0;
-    margin: 0;
+.menuContainer {
+  height: auto;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 0;
+  margin: 0;
 }
 
-.mainTitle{
-    font-size: 4rem;
-    font-weight: 600;
-    margin-top: 15rem; 
+.mainTitle {
+  font-size: 4rem;
+  font-weight: 600;
 }
-.lowerMenu{
-    margin-top: auto;
-    margin-bottom: auto;
-    font-size: var(--FontS);
-    font-weight: var(--FontW);
+.lowerMenu {
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: var(--FontS);
+  font-weight: var(--FontW);
 }
 
 /* ================================
         BUTTON COMPONENT
 ================================ */
 
-.startBtn{
-    margin-top: 2rem;
-    width: 10rem;
-    height: var(--Button-Height);
-    background: var(--ClrNeutral2);
-    border: solid;
-    border-radius: var(--radiusS);
-    border-color: var(--ClrKPBrdr);
-    font-size: var(--FontS);
-    font-weight: var(--FontW);
-    font-family: inherit;
-    cursor: pointer;
-    box-shadow: var(--ShadowL);
+.startBtn {
+  margin-top: 2rem;
+  width: 10rem;
+  height: var(--Button-Height);
+  background: var(--ClrNeutral2);
+  border: solid;
+  border-radius: var(--radiusS);
+  border-color: var(--ClrKPBrdr);
+  font-size: var(--FontS);
+  font-weight: var(--FontW);
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: var(--ShadowL);
 }
-.startBtn:hover{
-    background-color: #ebebeb;
+.startBtn:hover {
+  background-color: #ebebeb;
 }
-.startBtn:active{
-    background-color: #ebebeb;
-    transform: translateY(2px);
-    box-shadow: var(--Shadow)
+.startBtn:active {
+  background-color: #ebebeb;
+  transform: translateY(2px);
+  box-shadow: var(--Shadow);
 }

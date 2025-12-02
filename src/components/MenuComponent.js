@@ -1,19 +1,19 @@
 import "./menu.css";
 import "./lock.css";
+import bgImage from "../assets/MenuComponentBg.jpg";
 
 export default class MenuComponent {
-  constructor(onStart) {
-    this.onStart = onStart;
+  constructor() {
     this.wrapper = document.createElement("div");
+    this.bgImage = bgImage;
 
-    this.wrapper.innerHTML = `    <div class="menuContainer">
+    this.wrapper.innerHTML = `        <div class="menuContainer">
       <h1 class="mainTitle">EXIT Newcastle</h1>
 
       <div class="lowerMenu">
         <p>Not ready to try the real thing?</p>
         <p>Have a go at this interactive game to get you start!</p>
         <p>Can you escape?</p>
-        <button class="startBtn">START</button>
       </div>
     </div>`;
   }
