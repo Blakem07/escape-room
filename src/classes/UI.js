@@ -108,4 +108,16 @@ export default class UI {
 
     return overlay;
   }
+
+  /**
+   *  Creates a div element with popup-overlay and image-overlay classes
+   *
+   * @returns {HTMLDivElement} - The created overlay element
+   */
+  createImageOverlay(imgUrl) {
+    const overlay = document.createElement("div");
+    overlay.classList.add("popup-overlay", "image-overlay");
+    overlay.style.backgroundImage = `url("${imgUrl}")`;
+    return overlay;
+  }
 }

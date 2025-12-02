@@ -253,4 +253,13 @@ describe("UI Class Tests", () => {
     expect(overlay.classList).toContain("popup-overlay");
     expect(overlay.classList).toContain("blur");
   });
+
+  // Tests for createImageOverlay
+  test("UI.createImageOverlay returns a div with the popup-overlay, image-overlay classes and correct bg image", () => {
+    const overlay = ui.createImageOverlay("someImageUrl.jpg");
+    expect(overlay instanceof HTMLDivElement).toBe(true);
+    expect(overlay.classList).toContain("popup-overlay");
+    expect(overlay.classList).toContain("image-overlay");
+    expect(overlay.style.backgroundImage).toBe('url("someImageUrl.jpg")');
+  });
 });
