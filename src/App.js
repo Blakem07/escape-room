@@ -12,6 +12,7 @@
 import UI from "./classes/UI.js";
 import LockComponent from "./components/LockComponent.js";
 import MenuComponent from "./components/MenuComponent.js";
+import HintComponent from "./components/HintComponent.js";
 
 export default function App() {
   // Main container
@@ -52,16 +53,19 @@ export default function App() {
 
   const lockComponent = new LockComponent((e) => console.log(e));
   const menuComponent = new MenuComponent();
+  const hintComponent = new HintComponent();
 
   const content = [
     lockComponent.render.bind(lockComponent),
     menuComponent.render.bind(menuComponent),
+    hintComponent.render.bind(hintComponent),
   ];
   const overlay = [
     ui.createBlurOverlay,
     () => ui.createImageOverlay(menuComponent.bgImage),
+    ui.createBlurOverlay,
   ];
-  const select = 0; //  <---- change between 0 and 1 to test different options ----> //
+  const select = 2; //  <---- change between 0 and 1 to test different options ----> //
 
   const testPopup = ui.createPopup({
     overlay: overlay[select],
