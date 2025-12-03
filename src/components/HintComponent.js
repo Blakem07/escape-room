@@ -20,6 +20,15 @@ export default class HintComponent {
     hintEle.textContent = hintText;
   }
 
+  /**
+   * Returns the main element of the lock component.
+   *
+   * Be careful when passing this method as a callback.
+   * It must be bound to the instance (e.g. hintComponent.render.bind(hintComponent))
+   * or wrapped in an arrow function, otherwise `this` will be undefined.
+   *
+   * @return {HTMLElement} The root DOM element of the lock component.
+   */
   render() {
     return this.wrapper.firstElementChild;
   }

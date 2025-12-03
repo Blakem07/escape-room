@@ -9,10 +9,7 @@
  * so you can verify that your Webpack + Babel + Jest setup is working correctly.
  * -----------------------------------------------------------------------------
  */
-import UI from "./classes/UI.js";
-import LockComponent from "./components/LockComponent.js";
-import MenuComponent from "./components/MenuComponent.js";
-import HintComponent from "./components/HintComponent.js";
+import popupPreview from "./tests/visual/popup.preview.js";
 
 export default function App() {
   // Main container
@@ -49,34 +46,8 @@ export default function App() {
 
   // Currently checking components
 
-  const ui = new UI();
+  popupPreview(3);
 
-  const lockComponent = new LockComponent((e) => console.log(e));
-  const menuComponent = new MenuComponent();
-  const hintComponent = new HintComponent();
-
-  const content = [
-    lockComponent.render.bind(lockComponent),
-    menuComponent.render.bind(menuComponent),
-    hintComponent.render.bind(hintComponent),
-  ];
-  const overlay = [
-    ui.createBlurOverlay,
-    () => ui.createImageOverlay(menuComponent.bgImage),
-    ui.createBlurOverlay,
-  ];
-  const select = 2; //  <---- change between 0 and 1 to test different options ----> //
-
-  const testPopup = ui.createPopup({
-    overlay: overlay[select],
-    content: content[select],
-    closeCallBack: ui.closePopup,
-  });
-
-  app.append(testPopup);
   document.body.appendChild(app);
-
   return app;
 }
-
-// Testing CI Workflow
