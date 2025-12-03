@@ -10,11 +10,11 @@ describe("HintComponent tests", () => {
 
   beforeEach(() => {
     validHTML = `
-      <div class="invContainer showObj">
+      <div class="modal showObj">
         <div class="headerBar">
-          <h1 class="invHeader">Hint</h1>
+          <h1 class="modalHeader">Hint</h1>
         </div>
-        <div class="invList">
+        <div class="modalList">
           <ul>
             <li>Test Hint</li>
           </ul>

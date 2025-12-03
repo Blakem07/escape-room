@@ -1,22 +1,22 @@
-import "./inventory.css";
+import "./modal.css";
 
 export default class HintComponent {
   constructor(hintText = "This is a hint!") {
     this.hintText = hintText;
     this.wrapper = document.createElement("div");
     this.wrapper.innerHTML = `
-      <div class="invContainer showObj">
+      <div class="modal showObj">
         <div class="headerBar">
-          <h1 class="invHeader">Hint</h1>
+          <h1 class="modalHeader">Hint</h1>
         </div>
-        <div class="invList">
+        <div class="modalList">
           <ul>
             <li>item 1</li>
           </ul>
         </div>
       </div>`;
 
-    const hintEle = this.wrapper.querySelector(".invList ul li");
+    const hintEle = this.wrapper.querySelector(".modalList ul li");
     hintEle.textContent = hintText;
   }
 

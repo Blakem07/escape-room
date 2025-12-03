@@ -45,7 +45,7 @@ export default function popupPreview(select = 0) {
   const testPopup = ui.createPopup({
     overlay,
     content,
-    closeCallBack: ui.closePopup,
+    closeCallBack: ui.closePopup
   });
 
   document.body.appendChild(testPopup);

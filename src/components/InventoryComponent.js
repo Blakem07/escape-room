@@ -1,18 +1,17 @@
 export default class InventoryComponent {
   constructor() {
     this.wrapper = document.createElement("div");
-    this.wrapper.innerHTML = `<div class="invContainer showObj">
+    this.wrapper.innerHTML = `<div class="modal showObj">
         <div class="headerBar">
-          <h1 class="invHeader">Inventory</h1>
-          <button class="closeButton">✕</button>
+          <h1 class="modalHeader">Inventory</h1>
         </div>
-        <div class="invList">
+        <div class="modalList">
           <ul>
             <li></li>
           </ul>
         </div>
       </div>`;
-    this.codeStringEle = this.wrapper.querySelector(".invList ul li");
+    this.codeStringEle = this.wrapper.querySelector(".modalList ul li");
   }
 
   /**

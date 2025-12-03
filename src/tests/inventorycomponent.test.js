@@ -8,12 +8,11 @@ describe("InventoryComponent tests", () => {
   let inventoryComponent;
   let component;
   beforeEach(() => {
-    validHTML = `<div class="invContainer showObj">
+    validHTML = `<div class="modal showObj">
         <div class="headerBar">
-          <h1 class="invHeader">Inventory</h1>
-          <button class="closeButton">✕</button>
+          <h1 class="modalHeader">Inventory</h1>
         </div>
-        <div class="invList">
+        <div class="modalList">
           <ul>
             <li></li>
           </ul>
@@ -36,7 +35,7 @@ describe("InventoryComponent tests", () => {
   test("InventoryComponent.render() sets the correct code string", () => {
     const testString = "Test Code String";
     const component = inventoryComponent.render(testString);
-    const listItem = component.querySelector(".invList ul li");
+    const listItem = component.querySelector(".modalList ul li");
     expect(listItem.textContent).toBe(testString);
   });
 });

@@ -21,7 +21,6 @@ describe("LockComponent tests", () => {
     <div class="Container">
       <div class="keypad">
         <div class="KPIndicators">
-          <div class="KPLight" data-light="0"></div>
           <div class="KPLight" data-light="1"></div>
           <div class="KPLight" data-light="2"></div>
           <div class="KPLight" data-light="3"></div>

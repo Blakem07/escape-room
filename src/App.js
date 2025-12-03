@@ -12,30 +12,8 @@
 import popupPreview from "./tests/visual/popup.preview.js";
 
 export default function App() {
-  // Main container
   const app = document.createElement("div");
   app.className = "app";
-
-  // Header
-  const header = document.createElement("header");
-  header.className = "app-header";
-  header.innerHTML = `
-    <h1>Welcome to Vanilla JS Starter Template!</h1>
-    <p>Edit <code>src/App.js</code> and save to reload.</p>
-  `;
-
-  // Counter button
-  const button = document.createElement("button");
-  button.textContent = "Count is 0";
-  let count = 0;
-  button.addEventListener("click", () => {
-    count++;
-    button.textContent = `Count is ${count}`;
-  });
-
-  // Append elements
-  header.appendChild(button);
-  app.appendChild(header);
 
   //////////////////////////////////////
   //                                  //
@@ -45,8 +23,7 @@ export default function App() {
   //////////////////////////////////////
 
   // Currently checking components
-
-  popupPreview(3);
+  popupPreview(0);
 
   document.body.appendChild(app);
   return app;
