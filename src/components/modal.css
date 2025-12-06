@@ -26,7 +26,7 @@
   font-size: var(--FontS);
   font-weight: var(--FontW);
 }
-.modalList {
+.modalBody {
   display: flex;
   flex-direction: column;
   gap: var(--spaceL);

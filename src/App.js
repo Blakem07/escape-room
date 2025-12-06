@@ -23,7 +23,7 @@ export default function App() {
   //////////////////////////////////////
 
   // Currently checking components
-  popupPreview(0);
+  popupPreview(2);
 
   document.body.appendChild(app);
   return app;

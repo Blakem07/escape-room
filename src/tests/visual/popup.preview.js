@@ -2,6 +2,7 @@ import UI from "../../classes/UI.js";
 import {
   MenuComponent,
   LockComponent,
+  ModalComponent,
   HintComponent,
   InventoryComponent,
 } from "../../components/index.js";
@@ -18,6 +19,10 @@ export default function popupPreview(select = 0) {
   const ui = new UI();
   const menuComponent = new MenuComponent();
   const lockComponent = new LockComponent((e) => console.log(e));
+  const modalComponent = new ModalComponent(
+    "Sample Modal",
+    "This is a sample modal body."
+  );
   const hintComponent = new HintComponent();
   const inventoryComponent = new InventoryComponent();
 
@@ -28,6 +33,10 @@ export default function popupPreview(select = 0) {
     },
     {
       content: () => lockComponent.render(),
+      overlay: () => ui.createBlurOverlay(),
+    },
+    {
+      content: () => modalComponent.render(),
       overlay: () => ui.createBlurOverlay(),
     },
     {
@@ -45,7 +54,7 @@ export default function popupPreview(select = 0) {
   const testPopup = ui.createPopup({
     overlay,
     content,
-    closeCallBack: ui.closePopup
+    closeCallBack: ui.closePopup,
   });
 
   document.body.appendChild(testPopup);
