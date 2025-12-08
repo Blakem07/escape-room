@@ -87,4 +87,32 @@ describe("GameController class tests", () => {
     await gamecontroller.playGame();
     expect(gamecontroller.gameComplete).toBe(true);
   });
+
+  test("test GameController.getCodeString returns appropriate code strings", () => {
+  const gamecontroller = new GameController();
+  if(gamecontroller.clues[0].code == undefined){
+    gamecontroller._clues = [
+    { isFound: true,  code: "1" },
+    { isFound: false, code: "2" },
+    { isFound: true,  code: "3" },
+    { isFound: false, code: "4" }
+  ];
+  }
+  
+  expect(gamecontroller.getCodeString()).toBe("1_3_");
+});
+
+test("test GameController.getCodeString properly gives an error if the clues have no valid code", () => {
+  const gamecontroller = new GameController();
+  gamecontroller._clues = [
+    { isFound: true},
+    { isFound: false},
+    { isFound: true},
+    { isFound: false}
+    ];
+  
+  expect(gamecontroller.getCodeString()).toBe("____");
+  expect(console.error).toHaveBeenCalledWith("clue does not have a valid code");
+});
+
 });

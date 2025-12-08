@@ -67,6 +67,21 @@ export default class GameController {
     this._gameComplete = value;
   }
 
+  getCodeString(){
+    let result = "";
+    this._clues.forEach(clue => {
+      if(clue.isFound && (clue.code || clue.code === 0) && (String(clue.code).length == 1)){
+        result += clue.code;
+      }else if(!clue.isFound && clue.code){
+        result += "_";
+      }else{
+        console.error("clue does not have a valid code");
+        result += "_";
+      }
+    });
+    return result;
+  }
+
     /**
      * Attempt to mark a Clue as found and increase the clue count
      * - If a valid, unfound Clue is provided, increments and marks it found
