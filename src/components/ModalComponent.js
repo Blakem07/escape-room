@@ -1,6 +1,8 @@
 import "./modal.css";
 /**
  * Represents a modal UI component with a title and body content.
+ *
+ * @class ModalComponent
  */
 export default class ModalComponent {
   /**

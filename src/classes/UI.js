@@ -7,6 +7,32 @@
  */
 export default class UI {
   /**
+   * Initializes event listeners for the inventory
+   * and hint button, clickable clues and the lock.
+   *
+   * @returns {void}
+   */
+  initEventListeners(componentMap) {
+    const body = document.body;
+
+    Object.entries(componentMap).forEach(([selector, component]) => {
+      const element = document.querySelector(selector);
+
+      if (!element) return;
+
+      element.addEventListener("click", () => {
+        const popup = this.createPopup({
+          content: () => component.render(),
+          overlay: () => this.createBlurOverlay(),
+          closeCallBack: this.closePopup,
+        });
+
+        body.appendChild(popup);
+      });
+    });
+  }
+
+  /**
    * Creates a popup div element with optional content and a close button.
    *
    * @param {Object} options - The configuration options for the popup.

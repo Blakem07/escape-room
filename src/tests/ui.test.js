@@ -8,14 +8,21 @@ describe("UI Class Tests", () => {
   let ui;
 
   let createPopupSpy;
+  let createBlurOverlaySpy;
 
   let closeCallbackMock;
   let createComponentMock;
+  let modalMock;
 
   beforeEach(() => {
     ui = new UI();
 
+    document.body.innerHTML = `
+      <button class="Hint">Hint</button>
+    `;
+
     createPopupSpy = jest.spyOn(ui, "createPopup");
+    createBlurOverlaySpy = jest.spyOn(ui, "createBlurOverlay");
 
     closeCallbackMock = jest.fn();
     createComponentMock = jest.fn().mockImplementation(() => {
@@ -23,10 +30,30 @@ describe("UI Class Tests", () => {
       div.classList.add("component");
       return div;
     });
+    modalMock = {
+      render: jest.fn(() => {
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
+        return modal;
+      }),
+    };
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
+  });
+
+  test("UI.initEventListeners hint button shows hint popup on click", () => {
+    const hintButton = document.querySelector(".Hint");
+
+    ui.initEventListeners({ ".Hint": modalMock });
+    hintButton.click();
+
+    expect(createPopupSpy).toHaveBeenCalledTimes(1);
+    expect(modalMock.render).toHaveBeenCalledTimes(1);
+
+    const popup = document.querySelector(".popup");
+    expect(popup).not.toBeNull();
   });
 
   test("UI.createPopup should return a div with the popup class", () => {

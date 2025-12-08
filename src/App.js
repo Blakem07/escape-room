@@ -10,6 +10,12 @@
  * -----------------------------------------------------------------------------
  */
 import popupPreview from "./tests/visual/popup.preview.js";
+import { Clue, Lock, GameController, UI } from "./classes/index.js";
+import {
+  MenuComponent,
+  LockComponent,
+  ModalComponent,
+} from "./components/index.js";
 
 export default function App() {
   const app = document.createElement("div");
@@ -23,7 +29,16 @@ export default function App() {
   //////////////////////////////////////
 
   // Currently checking components
-  popupPreview(2);
+  //popupPreview(2);
+
+  const ui = new UI();
+  const hintComponent = new ModalComponent(
+    "Hint",
+    "Search the room and click to open clues."
+  );
+  const componentMap = { ".Hint": hintComponent };
+
+  ui.initEventListeners(componentMap);
 
   document.body.appendChild(app);
   return app;
