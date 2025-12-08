@@ -16,18 +16,20 @@ export default class UI {
     const body = document.body;
 
     Object.entries(componentMap).forEach(([selector, component]) => {
-      const element = document.querySelector(selector);
+      const triggers = document.querySelectorAll(selector);
 
-      if (!element) return;
+      if (!triggers.length) return;
 
-      element.addEventListener("click", () => {
-        const popup = this.createPopup({
-          content: () => component.render(),
-          overlay: () => this.createBlurOverlay(),
-          closeCallBack: this.closePopup,
+      triggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          const popup = this.createPopup({
+            content: () => component.render(),
+            overlay: () => this.createBlurOverlay(),
+            closeCallBack: this.closePopup,
+          });
+
+          body.appendChild(popup);
         });
-
-        body.appendChild(popup);
       });
     });
   }

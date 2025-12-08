@@ -1,50 +1,70 @@
-/**
- * App.js
- * -----------------------------------------------------------------------------
- * This file defines a simple vanilla JavaScript view used as a starter template.
- * Its inspired by the default Vite/React setup, but built with plain JS.
- *
- * You can freely modify or replace this function to start building your own app.
- * The purpose of this file is only to render a minimal interactive example (a counter)
- * so you can verify that your Webpack + Babel + Jest setup is working correctly.
- * -----------------------------------------------------------------------------
- */
-import popupPreview from "./tests/visual/popup.preview.js";
 import { Clue, Lock, GameController, UI } from "./classes/index.js";
-import {
-  MenuComponent,
-  LockComponent,
-  ModalComponent,
-} from "./components/index.js";
+import { MenuComponent, LockComponent, ModalComponent } from "./components/index.js";
 
+/**
+ * Initializes and renders the main application for the escape-room game.
+ *
+ * This function:
+ * - Creates the root application container.
+ * - Sets up the UI system, including popups and modal components.
+ * - Instantiates clue objects and maps them to modal windows.
+ * - Registers event listeners for interactive components (hint, inventory, lock, clues).
+ * - Appends the application to the document body.
+ *
+ * @function App
+ * @returns {HTMLDivElement} The root application element appended to the DOM.
+ */
 export default function App() {
   const app = document.createElement("div");
   app.className = "app";
 
-  //////////////////////////////////////
-  //                                  //
-  //     BELOW IS TESTING THE         //
-  //           REAL APP               //
-  //                                  //
-  //////////////////////////////////////
-
-  // Currently checking components
-  //popupPreview(2);
-
   const ui = new UI();
-  const hintComponent = new ModalComponent(
+
+  // --- Menu Popup ------------------------------------------------------------
+  const menuComponent = new MenuComponent();
+
+  const menuPopup = ui.createPopup({
+    content: () => menuComponent.render(),
+    overlay: () => ui.createImageOverlay(menuComponent.bgImage),
+    closeCallBack: ui.closePopup,
+  });
+
+  app.appendChild(menuPopup);
+
+  // --- Modal Components -------------------------------------------------------
+  const hintModal = new ModalComponent(
     "Hint",
-    "Search the room and click to open clues."
+    "Search the room and click on items to reveal clues."
   );
-  const inventoryComponent = new ModalComponent(
+
+  const inventoryModal = new ModalComponent(
     "Inventory",
-    "Add code variable from gamecontroller here"
+    "Add GameController.getCode result here."
   );
+
   const lockComponent = new LockComponent();
+
+  // --- Clues -----------------------------------------------------------------
+  const clues = [
+    new Clue("Handwritten Note", "The first number on the lock is 1."),
+    new Clue("Photograph", "The second number on the lock is 4."),
+    new Clue("Diary Entry", "The third number on the lock is 2."),
+    new Clue("Strange Symbol", "The fourth number on the lock is 9."),
+  ];
+
+  const clueModals = clues.map(
+    (clue) => new ModalComponent(`Clue - ${clue.name}`, clue.information)
+  );
+
+  // --- Component Mapping (CSS selector -> component) --------------------------
   const componentMap = {
-    ".Hint": hintComponent,
-    ".Inventory": inventoryComponent,
+    ".Hint": hintModal,
+    ".Inventory": inventoryModal,
     ".Lock": lockComponent,
+    ".Clue1": clueModals[0],
+    ".Clue2": clueModals[1],
+    ".Clue3": clueModals[2],
+    ".Clue4": clueModals[3],
   };
 
   ui.initEventListeners(componentMap);

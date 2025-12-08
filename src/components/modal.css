@@ -29,6 +29,7 @@
 .modalBody {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--spaceL);
   font-size: var(--FontS);
   font-weight: var(--FontW);

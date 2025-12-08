@@ -21,6 +21,11 @@ describe("UI Class Tests", () => {
       <button class="Hint">Hint</button>
       <button class="Inventory">Inventory</button>
       <button class="Lock">Inventory</button>
+      <div class="Clue"></div>
+      <div class="Clue"></div>
+      <div class="Clue"></div>
+      <div class="Clue"></div>
+      <div class="Clue"></div>
     `;
 
     createPopupSpy = jest.spyOn(ui, "createPopup");
@@ -82,6 +87,24 @@ describe("UI Class Tests", () => {
 
     const popup = document.querySelector(".popup");
     expect(popup).not.toBeNull();
+  });
+
+  test("UI.initEventListeners clue buttons show clue popup on click", () => {
+    const clueButtons = document.querySelectorAll(".Clue");
+    expect(clueButtons.length).toBeGreaterThan(1);
+
+    ui.initEventListeners({ ".Clue": modalMock });
+
+    clueButtons.forEach((button) => {
+      button.click();
+    });
+
+    // Should be called once per button
+    expect(createPopupSpy).toHaveBeenCalledTimes(clueButtons.length);
+    expect(modalMock.render).toHaveBeenCalledTimes(clueButtons.length);
+
+    const popups = document.querySelectorAll(".popup");
+    expect(popups.length).toBe(clueButtons.length);
   });
 
   test("UI.createPopup should return a div with the popup class", () => {

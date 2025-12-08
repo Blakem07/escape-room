@@ -18,59 +18,123 @@ export default class LockComponent {
     this.onInput = onInput;
     this.onEnter = onEnter;
     this.onClear = onClear;
-    this.wrapper = document.createElement("div");
 
-    this.wrapper.innerHTML = `
-      <div class="Container">
-        <div class="keypad">
-          <div class="KPIndicators">
-            <div class="KPLight" data-light="1"></div>
-            <div class="KPLight" data-light="2"></div>
-            <div class="KPLight" data-light="3"></div>
-            <div class="KPLight" data-light="4"></div>
-          </div>
-
-          <div class="numpad">
-            <div class="numRow">
-              <button class="numKey" data-key="1">1</button>
-              <button class="numKey" data-key="2">2</button>
-              <button class="numKey" data-key="3">3</button>
-            </div>
-
-            <div class="numRow">
-              <button class="numKey" data-key="4">4</button>
-              <button class="numKey" data-key="5">5</button>
-              <button class="numKey" data-key="6">6</button>
-            </div>
-
-            <div class="numRow">
-              <div class="numColumn">
-                <div class="numRow">
-                  <button class="numKey" data-key="7">7</button>
-                  <button class="numKey" data-key="8">8</button>
-                </div>
-
-                <div class="numRow">
-                  <button class="numKey" data-key="9">9</button>
-                  <button class="numKey" data-key="0">0</button>
-                </div>
-
-                <button class="numKey numClear" data-key="Clear">Clear</button>
-              </div>
-
-              <button class="numKey numEnter" data-key="Enter">Enter</button>
-            </div>
-          </div>
-
-          <div class="errCode">Incorrect Entry</div>
-          <div class="unlocked">Unlocked!</div>
-        </div>
-      </div>
-    `;
+    // Build DOM like ModalComponent does
+    this.root = this.initComponentHTML();
 
     this._attachInputHandlers();
     this._attachEnterHandler();
     this._attachClearHandler();
+  }
+
+  /**
+   * Builds and returns the root HTML for the lock component.
+   *
+   * @returns {HTMLElement} Root container element.
+   */
+  initComponentHTML() {
+    // Container
+    const container = document.createElement("div");
+    container.classList.add("Container");
+
+    // Keypad wrapper
+    const keypad = document.createElement("div");
+    keypad.classList.add("keypad");
+    container.appendChild(keypad);
+
+    // Indicator lights
+    const indicators = document.createElement("div");
+    indicators.classList.add("KPIndicators");
+    keypad.appendChild(indicators);
+
+    for (let i = 1; i <= 4; i++) {
+      const light = document.createElement("div");
+      light.classList.add("KPLight");
+      light.dataset.light = String(i);
+      indicators.appendChild(light);
+    }
+
+    // Numpad
+    const numpad = document.createElement("div");
+    numpad.classList.add("numpad");
+    keypad.appendChild(numpad);
+
+    // Row creator
+    const createRow = () => {
+      const row = document.createElement("div");
+      row.classList.add("numRow");
+      return row;
+    };
+
+    // Digit button helper
+    const createDigitButton = (digit) => {
+      const btn = document.createElement("button");
+      btn.classList.add("numKey");
+      btn.dataset.key = String(digit);
+      btn.textContent = String(digit);
+      return btn;
+    };
+
+    // Row 1: 1 2 3
+    const row1 = createRow();
+    row1.appendChild(createDigitButton(1));
+    row1.appendChild(createDigitButton(2));
+    row1.appendChild(createDigitButton(3));
+    numpad.appendChild(row1);
+
+    // Row 2: 4 5 6
+    const row2 = createRow();
+    row2.appendChild(createDigitButton(4));
+    row2.appendChild(createDigitButton(5));
+    row2.appendChild(createDigitButton(6));
+    numpad.appendChild(row2);
+
+    // Row 3: left digits and Clear, right Enter
+    const row3 = createRow();
+    numpad.appendChild(row3);
+
+    const leftColumn = document.createElement("div");
+    leftColumn.classList.add("numColumn");
+    row3.appendChild(leftColumn);
+
+    // 7 8
+    const row78 = createRow();
+    row78.appendChild(createDigitButton(7));
+    row78.appendChild(createDigitButton(8));
+    leftColumn.appendChild(row78);
+
+    // 9 0
+    const row90 = createRow();
+    row90.appendChild(createDigitButton(9));
+    row90.appendChild(createDigitButton(0));
+    leftColumn.appendChild(row90);
+
+    // Clear button
+    const clearBtn = document.createElement("button");
+    clearBtn.classList.add("numKey", "numClear");
+    clearBtn.dataset.key = "Clear";
+    clearBtn.textContent = "Clear";
+    leftColumn.appendChild(clearBtn);
+
+    // Enter button
+    const enterBtn = document.createElement("button");
+    enterBtn.classList.add("numKey", "numEnter");
+    enterBtn.dataset.key = "Enter";
+    enterBtn.textContent = "Enter";
+    row3.appendChild(enterBtn);
+
+    // Status messages
+    const errCode = document.createElement("div");
+    errCode.classList.add("errCode");
+    errCode.textContent = "Incorrect Entry";
+    keypad.appendChild(errCode);
+
+    const unlocked = document.createElement("div");
+    unlocked.classList.add("unlocked");
+    unlocked.textContent = "Unlocked!";
+    keypad.appendChild(unlocked);
+
+    return container;
   }
 
   /**
@@ -80,7 +144,7 @@ export default class LockComponent {
    * @return {void}
    */
   _attachInputHandlers() {
-    const inputButtons = this.wrapper.querySelectorAll(
+    const inputButtons = this.root.querySelectorAll(
       '.numKey[data-key]:not([data-key="Enter"]):not([data-key="Clear"])'
     );
 
@@ -96,40 +160,41 @@ export default class LockComponent {
   /**
    * Returns the main element of the lock component.
    *
-   * Be careful when passing this method as a callback.
-   * It must be bound to the instance (e.g. lockComponent.render.bind(lockComponent))
-   * or wrapped in an arrow function, otherwise `this` will be undefined.
-   *
    * @return {HTMLElement} The root DOM element of the lock component.
    */
   render() {
-    return this.wrapper.firstElementChild;
+    return this.root; // always the same node, safe to attach/detach
   }
 
   /**
    * Attaches a click handler to the Enter button.
-   * When clicked, it triggers `onEnter()`, which submits
-   * the code tracked internally by the Lock (no arguments needed).
    *
    * @return {void}
    */
   _attachEnterHandler() {
-    const enterButton = this.wrapper.querySelector(".numEnter");
+    const enterButton = this.root.querySelector(".numEnter");
+    if (!enterButton) return;
+
     enterButton.addEventListener("click", () => {
-      this.onEnter();
+      if (this.onEnter) {
+        this.onEnter();
+      }
     });
   }
+
   /**
    * Attaches a click handler to the Clear button.
-   * When clicked, it triggers `onClear()`, which clears the
-   * code tracked internally by the Lock (no arguments needed).
    *
    * @return {void}
    */
   _attachClearHandler() {
-    const clearButton = this.wrapper.querySelector(".numClear");
+    const clearButton = this.root.querySelector(".numClear");
+    if (!clearButton) return;
+
     clearButton.addEventListener("click", () => {
-      this.onClear();
+      if (this.onClear) {
+        this.onClear();
+      }
     });
   }
 }
