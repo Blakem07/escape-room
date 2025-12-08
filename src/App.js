@@ -36,7 +36,16 @@ export default function App() {
     "Hint",
     "Search the room and click to open clues."
   );
-  const componentMap = { ".Hint": hintComponent };
+  const inventoryComponent = new ModalComponent(
+    "Inventory",
+    "Add code variable from gamecontroller here"
+  );
+  const lockComponent = new LockComponent();
+  const componentMap = {
+    ".Hint": hintComponent,
+    ".Inventory": inventoryComponent,
+    ".Lock": lockComponent,
+  };
 
   ui.initEventListeners(componentMap);
 

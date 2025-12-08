@@ -19,6 +19,8 @@ describe("UI Class Tests", () => {
 
     document.body.innerHTML = `
       <button class="Hint">Hint</button>
+      <button class="Inventory">Inventory</button>
+      <button class="Lock">Inventory</button>
     `;
 
     createPopupSpy = jest.spyOn(ui, "createPopup");
@@ -48,6 +50,32 @@ describe("UI Class Tests", () => {
 
     ui.initEventListeners({ ".Hint": modalMock });
     hintButton.click();
+
+    expect(createPopupSpy).toHaveBeenCalledTimes(1);
+    expect(modalMock.render).toHaveBeenCalledTimes(1);
+
+    const popup = document.querySelector(".popup");
+    expect(popup).not.toBeNull();
+  });
+
+  test("UI.initEventListeners inventory button shows inventory popup on click", () => {
+    const inventoryButton = document.querySelector(".Inventory");
+
+    ui.initEventListeners({ ".Inventory": modalMock });
+    inventoryButton.click();
+
+    expect(createPopupSpy).toHaveBeenCalledTimes(1);
+    expect(modalMock.render).toHaveBeenCalledTimes(1);
+
+    const popup = document.querySelector(".popup");
+    expect(popup).not.toBeNull();
+  });
+
+  test("UI.initEventListeners lock button shows lock popup on click", () => {
+    const lockButton = document.querySelector(".Lock");
+
+    ui.initEventListeners({ ".Lock": modalMock });
+    lockButton.click();
 
     expect(createPopupSpy).toHaveBeenCalledTimes(1);
     expect(modalMock.render).toHaveBeenCalledTimes(1);
