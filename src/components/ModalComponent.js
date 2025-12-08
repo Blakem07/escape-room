@@ -1,3 +1,4 @@
+import "./modal.css";
 /**
  * Represents a modal UI component with a title and body content.
  */
@@ -45,7 +46,7 @@ export default class ModalComponent {
   get title() {
     return this._title;
   }
- 
+
   set bodyContent(value) {
     const stringValue = String(value);
     const bodyDiv = this.root.querySelector(".modalBody");

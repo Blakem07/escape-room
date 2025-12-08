@@ -3,8 +3,6 @@ import {
   MenuComponent,
   LockComponent,
   ModalComponent,
-  HintComponent,
-  InventoryComponent,
 } from "../../components/index.js";
 
 /**
@@ -23,8 +21,6 @@ export default function popupPreview(select = 0) {
     "Sample Modal",
     "This is a sample modal body."
   );
-  const hintComponent = new HintComponent();
-  const inventoryComponent = new InventoryComponent();
 
   const popupConfigs = [
     {
@@ -37,14 +33,6 @@ export default function popupPreview(select = 0) {
     },
     {
       content: () => modalComponent.render(),
-      overlay: () => ui.createBlurOverlay(),
-    },
-    {
-      content: () => hintComponent.render(),
-      overlay: () => ui.createBlurOverlay(),
-    },
-    {
-      content: () => inventoryComponent.render(),
       overlay: () => ui.createBlurOverlay(),
     },
   ];
