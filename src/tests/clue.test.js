@@ -6,7 +6,8 @@ describe("Clue Class Tests", () => {
   beforeEach(() => {
     clue = new Clue(
       "Handwritten Note",
-      "The number for the first padlock digit is 1"
+      "The number for the first padlock digit is 1",
+      "1"
     );
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
@@ -30,7 +31,7 @@ describe("Clue Class Tests", () => {
 
   test("Clue.information should not be set to an invalid value", () => {
     const invalidValues = [1234, null, undefined, {}, [], true];
-    
+
     invalidValues.forEach((value) => {
       const originalInformation = clue.information;
       clue.information = value;
@@ -41,9 +42,41 @@ describe("Clue Class Tests", () => {
     });
   });
 
+  test("Clue.code should be set correctly", () => {
+    expect(clue.code).toBe("1");
+  });
+
+  test("Clue.code should convert non-string input to string", () => {
+    const numericClue = new Clue("Numeric Clue", "The code is numeric", 1234);
+    expect(numericClue.code).toBe("1234");
+  });
+
+  test("Clue.code should not accept null or undefined", () => {
+    const clue = new Clue("Note", "Info", "1");
+    clue.code = null;
+    expect(clue.code).toBe("1"); // unchanged
+
+    clue.code = undefined;
+    expect(clue.code).toBe("1"); // still unchanged
+  });
+
+  test("Clue.code should not accept empty or whitespace-only strings", () => {
+    const clue = new Clue("Note", "Info", "1");
+    clue.code = "";
+    expect(clue.code).toBe("1");
+
+    clue.code = "   ";
+    expect(clue.code).toBe("1");
+  });
+
+  test("Clue.code should trim surrounding whitespace", () => {
+    const clue = new Clue("Note", "Info", "  7  ");
+    expect(clue.code).toBe("7");
+  });
+
   test("Clue.isFound should only set to a boolean", () => {
     const invalidValues = [1234, null, undefined, {}, [], "true"];
-    
+
     invalidValues.forEach((value) => {
       const originalIsFound = clue.isFound;
       clue.isFound = value;
@@ -54,9 +87,9 @@ describe("Clue Class Tests", () => {
     });
   });
 
-  test("Clue.discover() sets isFound to true",  () => {
-    expect(clue.isFound).toBe(false)
-    clue.discover()
-    expect(clue.isFound).toBe(true)
-  })
+  test("Clue.discover() sets isFound to true", () => {
+    expect(clue.isFound).toBe(false);
+    clue.discover();
+    expect(clue.isFound).toBe(true);
+  });
 });
