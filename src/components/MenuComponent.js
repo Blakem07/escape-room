@@ -2,6 +2,13 @@ import "./menu.css";
 import "./lock.css";
 import bgImage from "../assets/MenuComponentBg.jpg";
 
+/**
+ * The MenuComponent class serves as the main menu interface for the escape room game.
+ * It displays the game title and introductory text to the player,
+ * and is shown using the UI's popup system.
+ *
+ * @class MenuComponent
+ */
 export default class MenuComponent {
   constructor() {
     this.wrapper = document.createElement("div");

@@ -46,10 +46,10 @@ export default function App() {
 
   // --- Clues -----------------------------------------------------------------
   const clues = [
-    new Clue("Handwritten Note", "The first number on the lock is 1."),
-    new Clue("Photograph", "The second number on the lock is 4."),
-    new Clue("Diary Entry", "The third number on the lock is 2."),
-    new Clue("Strange Symbol", "The fourth number on the lock is 9."),
+    new Clue("Handwritten Note", "The first number on the lock is 1.", "1"),
+    new Clue("Photograph", "The second number on the lock is 4.", "4"),
+    new Clue("Diary Entry", "The third number on the lock is 2.", "5"),
+    new Clue("Strange Symbol", "The fourth number on the lock is 9.", "9"),
   ];
 
   const clueModals = clues.map(

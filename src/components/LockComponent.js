@@ -8,7 +8,8 @@ import "./lock.css";
  * to the callbacks passed into the constructor. The component contains no lock logic:
  * it only emits input events.
  *
- * @class
+ * @class LockComponent
+ *
  * @param {function(string):void} onInput  Called when a digit key is pressed.
  * @param {function():void}        onEnter Called when Enter is pressed.
  * @param {function():void}        onClear Called when Clear is pressed.

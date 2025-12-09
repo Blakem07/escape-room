@@ -1,7 +1,16 @@
 /**
- * UI class to handle user interface elements
+ * Manages creation and interaction of UI elements such as popups,
+ * overlays, buttons, and event-driven components.
  *
- * Provides methods to create popups and buttons. TODO...
+ * The `UI` class provides a system for:
+ * - Registering click-based triggers that open component-driven popups
+ * - Generating reusable popup containers with optional content, sizing, and overlays
+ * - Creating blur or image-based overlays
+ * - Supplying standardized close-button behavior
+ *
+ * Popups are built dynamically at the time of interaction, allowing components
+ * to render themselves only when needed. Overlay wrappers can optionally be used
+ * to create modal-style effects.
  *
  * @class UI
  */
