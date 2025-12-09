@@ -14,34 +14,69 @@ import Lock from "./lock";
  * @param {Lock} lock - lock instance containing the solution to the puzzle
  */
 export default class GameController {
-    constructor(
-        clue1 = new Clue("default clue 1", "default clue if no parameter is given"), 
-        clue2 = new Clue("default clue 2", "default clue if no parameter is given"), 
-        clue3 = new Clue("default clue 3", "default clue if no parameter is given"), 
-        clue4 = new Clue("default clue 4", "default clue if no parameter is given"), 
-        lock = new Lock(1111, "number lock")
-    ){
-        this.clueCount = 0;
-        this._progressionPercentage = 0;
-        this._gameComplete = false;
-        if(clue1 instanceof Clue && clue2 instanceof Clue && clue3 instanceof Clue && clue4 instanceof Clue && lock instanceof Lock){
-            this._clue1 = clue1;
-            this._clue2 = clue2;
-            this._clue3 = clue3;
-            this._clue4 = clue4;
-            this._lock = lock;
-        }else{
-            console.error("Parameter error: passed clues or locks are not instances of the clue or lock class.");
-            //set clues and locks to default
-            this._clue1 = new Clue("default clue 1", "default clue if no parameter is given");
-            this._clue2 = new Clue("default clue 2", "default clue if no parameter is given");
-            this._clue3 = new Clue("default clue 3", "default clue if no parameter is given");
-            this._clue4 = new Clue("default clue 4", "default clue if no parameter is given");
-            this._lock = new Lock(1111, "number lock");
-        }
-        this._clues = [this._clue1, this._clue2, this._clue3, this._clue4];
-        
+  constructor(
+    clue1 = new Clue(
+      "default clue 1",
+      "default clue if no parameter is given",
+      "1"
+    ),
+    clue2 = new Clue(
+      "default clue 2",
+      "default clue if no parameter is given",
+      "2"
+    ),
+    clue3 = new Clue(
+      "default clue 3",
+      "default clue if no parameter is given",
+      "3"
+    ),
+    clue4 = new Clue(
+      "default clue 4",
+      "default clue if no parameter is given",
+      "4"
+    ),
+    lock = new Lock(1111, "number lock")
+  ) {
+    this.clueCount = 0;
+    this._progressionPercentage = 0;
+    this._gameComplete = false;
+    if (
+      clue1 instanceof Clue &&
+      clue2 instanceof Clue &&
+      clue3 instanceof Clue &&
+      clue4 instanceof Clue &&
+      lock instanceof Lock
+    ) {
+      this._clue1 = clue1;
+      this._clue2 = clue2;
+      this._clue3 = clue3;
+      this._clue4 = clue4;
+      this._lock = lock;
+    } else {
+      console.error(
+        "Parameter error: passed clues or locks are not instances of the clue or lock class."
+      );
+      //set clues and locks to default
+      this._clue1 = new Clue(
+        "default clue 1",
+        "default clue if no parameter is given"
+      );
+      this._clue2 = new Clue(
+        "default clue 2",
+        "default clue if no parameter is given"
+      );
+      this._clue3 = new Clue(
+        "default clue 3",
+        "default clue if no parameter is given"
+      );
+      this._clue4 = new Clue(
+        "default clue 4",
+        "default clue if no parameter is given"
+      );
+      this._lock = new Lock(1111, "number lock");
     }
+    this._clues = [this._clue1, this._clue2, this._clue3, this._clue4];
+  }
 
   get gameComplete() {
     return this._gameComplete;

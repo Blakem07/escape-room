@@ -9,39 +9,40 @@ describe("GameController class tests", () => {
   let clue3;
   let lock;
 
-    beforeEach(() => {
-        clue1 = new Clue("clue 1", "test clue");
-        clue2 = new Clue("clue 2", "test clue");
-        clue3 = new Clue("clue 3", "test clue");
-        clue4 = new Clue("clue 4", "test clue");
-        lock = new Lock(1234, "combination lock");
-        gamecontroller = new GameController(clue1, clue2, clue3, clue4, lock);
-        jest.spyOn(console, "error").mockImplementation(() => {});
-      });
-    
-      afterEach(() => {
-        jest.restoreAllMocks();
-      });
+  beforeEach(() => {
+    clue1 = new Clue("clue 1", "test clue", "1");
+    clue2 = new Clue("clue 2", "test clue", "2");
+    clue3 = new Clue("clue 3", "test clue", "3");
+    clue4 = new Clue("clue 4", "test clue", "4");
+    lock = new Lock(1234, "combination lock");
+    gamecontroller = new GameController(clue1, clue2, clue3, clue4, lock);
+    jest.spyOn(console, "error").mockImplementation(() => {});
+  });
 
-    test("GameController only lets you initialise it if given clues and a lock or uses default parameters", () => {
-      let testController = new GameController(1, "something", 3, 4, "test input");
-      expect(testController.clues.at(0).name).toBe("default clue 1");
-      expect(testController.lock.solution).toBe(1111);
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
-      testController = new GameController(clue1, clue2, clue3, clue4, lock);
-      expect(testController.clues.at(0).name).toBe("clue 1");
-      expect(testController.lock.solution).toBe(1234);
-    });
+  test("GameController only lets you initialise it if given clues and a lock or uses default parameters", () => {
+    let testController = new GameController(1, "something", 3, 4, "test input");
+    expect(testController.clues.at(0).name).toBe("default clue 1");
+    expect(testController.lock.solution).toBe(1111);
 
-    test("GameController.increaseClueCount() should only increase the count if isFound is false", () => {
+    testController = new GameController(clue1, clue2, clue3, clue4, lock);
+    expect(testController.clues.at(0).name).toBe("clue 1");
+    expect(testController.lock.solution).toBe(1234);
+  });
 
-        gamecontroller.increaseClueCount(clue1);
-        //check if it properly incremented clueCount
-        expect(gamecontroller.clueCount).toBe(1);
-        gamecontroller.increaseClueCount(clue1);
-        //check if error has been thrown for duplicate clue
-        expect(console.error).toHaveBeenCalledWith("Duplicate error: This clue has already been found once.");
-    });
+  test("GameController.increaseClueCount() should only increase the count if isFound is false", () => {
+    gamecontroller.increaseClueCount(clue1);
+    //check if it properly incremented clueCount
+    expect(gamecontroller.clueCount).toBe(1);
+    gamecontroller.increaseClueCount(clue1);
+    //check if error has been thrown for duplicate clue
+    expect(console.error).toHaveBeenCalledWith(
+      "Duplicate error: This clue has already been found once."
+    );
+  });
 
   test("GameController.increaseClueCount() should only increase the count if the given parameter is a clue", () => {
     gamecontroller.increaseClueCount(1);
