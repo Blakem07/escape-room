@@ -2,6 +2,15 @@ import "./modal.css";
 /**
  * Represents a modal UI component with a title and body content.
  *
+ * The `ModalComponent` class provides a simple way to create modal dialogs
+ * with customizable titles and body text.
+ *
+ * @example
+ * const hintModal = new ModalComponent(
+ *  "Hint",
+ *  "Search the room and click on items to reveal clues."
+ * );
+ *
  * @class ModalComponent
  */
 export default class ModalComponent {

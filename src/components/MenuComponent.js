@@ -7,6 +7,14 @@ import bgImage from "../assets/MenuComponentBg.jpg";
  * It displays the game title and introductory text to the player,
  * and is shown using the UI's popup system.
  *
+ * @example
+ * const menuComponent = new MenuComponent();
+ * const menuPopup = ui.createPopup({
+ * content: () => menuComponent.render(),
+ * overlay: () => ui.createImageOverlay(menuComponent.bgImage),
+ * closeCallBack: ui.closePopup,
+ * });
+ *
  * @class MenuComponent
  */
 export default class MenuComponent {
