@@ -64,10 +64,10 @@ describe("GameController class tests", () => {
     });
 
     test("GameController constructor: accepts passed Clue and Lock instances", () => {
-      const clue1 = new Clue("clue 1", "test clue 1");
-      const clue2 = new Clue("clue 2", "test clue 2");
-      const clue3 = new Clue("clue 3", "test clue 3");
-      const clue4 = new Clue("clue 4", "test clue 3");
+      const clue1 = new Clue("clue 1", "test clue 1", "9");
+      const clue2 = new Clue("clue 2", "test clue 2", "9");
+      const clue3 = new Clue("clue 3", "test clue 3", "9");
+      const clue4 = new Clue("clue 4", "test clue 3", "9");
       const lock = new Lock(9999, "test lock");
 
       const gamecontroller = new GameController(clue1, clue2, clue3, clue4, lock);
@@ -91,15 +91,9 @@ describe("GameController class tests", () => {
 
   test("test GameController.getCodeString returns appropriate code strings", () => {
   const gamecontroller = new GameController();
-  if(gamecontroller.clues[0].code == undefined){
-    gamecontroller._clues = [
-    { isFound: true,  code: "1" },
-    { isFound: false, code: "2" },
-    { isFound: true,  code: "3" },
-    { isFound: false, code: "4" }
-  ];
-  }
-  
+  gamecontroller._clue1.discover();
+  gamecontroller._clue3.discover();
+
   expect(gamecontroller.getCodeString()).toBe("1_3_");
 });
 

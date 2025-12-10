@@ -102,6 +102,12 @@ export default class GameController {
     this._gameComplete = value;
   }
 
+  /**
+     * returns a string displaying which clues have been 
+     * found by displaying its code property in a string
+     *
+     * @returns {string} The code with unfound clues obscured
+     */
   getCodeString(){
     let result = "";
     this._clues.forEach(clue => {
