@@ -103,26 +103,47 @@ export default class GameController {
   }
 
   /**
-   * Attempt to mark a Clue as found and increase the clue count
-   * - If a valid, unfound Clue is provided, increments and marks it found
-   * - If a Clue is provided but already found, logs a "duplicate error"
-   * - Otherwise logs an "invalid clue" error
-   *
-   * @param {Clue|any} clue - Clue instance to mark as found
-   * @returns {number} The updated clue count
-   */
-  increaseClueCount(clue) {
-    if (clue instanceof Clue && !clue.isFound) {
-      clue.discover();
-      this.clueCount += 1;
-    } else if (clue instanceof Clue && clue.isFound) {
-      console.error("Duplicate error: This clue has already been found once.");
-    } else {
-      console.error("Invalid clue: Given parameter is not a Clue.");
-    }
-
-    return this.clueCount;
+     * returns a string displaying which clues have been 
+     * found by displaying its code property in a string
+     *
+     * @returns {string} The code with unfound clues obscured
+     */
+  getCodeString(){
+    let result = "";
+    this._clues.forEach(clue => {
+      if(clue.isFound && (clue.code || clue.code === 0) && (String(clue.code).length == 1)){
+        result += clue.code;
+      }else if(!clue.isFound && clue.code){
+        result += "_";
+      }else{
+        console.error("clue does not have a valid code");
+        result += "_";
+      }
+    });
+    return result;
   }
+
+    /**
+     * Attempt to mark a Clue as found and increase the clue count
+     * - If a valid, unfound Clue is provided, increments and marks it found
+     * - If a Clue is provided but already found, logs a "duplicate error"
+     * - Otherwise logs an "invalid clue" error
+     *
+     * @param {Clue|any} clue - Clue instance to mark as found
+     * @returns {number} The updated clue count
+     */
+    increaseClueCount(clue){
+        if(clue instanceof Clue && !clue.isFound){
+            clue.discover();
+            this.clueCount += 1;
+        }else if(clue instanceof Clue && clue.isFound ){
+            console.error("Duplicate error: This clue has already been found once.");
+        }else{
+            console.error("Invalid clue: Given parameter is not a Clue.");
+        }
+        
+        return this.clueCount;
+    }
 
   /**
    * Mark the game as complete.
