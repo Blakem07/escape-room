@@ -6,8 +6,12 @@ import ModalComponent from "../components/ModalComponent.js";
 describe("ModalComponent Class Tests", () => {
   let modalComponent;
 
+  let getCodeStringMock;
+
   beforeEach(() => {
     modalComponent = new ModalComponent();
+
+    getCodeStringMock = jest.fn();
   });
   afterEach(() => {
     jest.restoreAllMocks();
@@ -29,8 +33,7 @@ describe("ModalComponent Class Tests", () => {
     // 1. Remove whitespace between tags (e.g., ">\n  <" → "><")
     // 2. Collapse any remaining whitespace into a single space
     // 3. Trim leading/trailing whitespace
-    const normalizeHTML = (html) =>
-      html.replace(/>\s+</g, "><").replace(/\s+/g, " ").trim();
+    const normalizeHTML = (html) => html.replace(/>\s+</g, "><").replace(/\s+/g, " ").trim();
 
     expect(normalizeHTML(root.outerHTML)).toBe(normalizeHTML(expected));
   });
@@ -71,5 +74,38 @@ describe("ModalComponent Class Tests", () => {
 
     expect(modal.querySelector(".modalBody").textContent).toBe("9999");
     expect(modalComponent.bodyContent).toBe("9999");
+  });
+
+  test("ModalComponent._refreshBodyFn updates the body with the expected value when calling .render()", () => {
+    const modalComponent = new ModalComponent("Title", "Initial Body", getCodeStringMock);
+
+    // Initial render
+    let rendered = modalComponent.render();
+    expect(rendered.querySelector(".modalBody").textContent).toBe("Initial Body");
+
+    // First refresh
+    getCodeStringMock.mockReturnValue("Render 1");
+    rendered = modalComponent.render();
+    expect(rendered.querySelector(".modalBody").textContent).toBe("Render 1");
+
+    // Second refresh
+    getCodeStringMock.mockReturnValue("Render 2");
+    rendered = modalComponent.render();
+    expect(rendered.querySelector(".modalBody").textContent).toBe("Render 2");
+  });
+
+  test("ModalComponent falls back to static body content when refreshBodyFn returns undefined or null", () => {
+    const modalComponent = new ModalComponent("Title", "Static Body", getCodeStringMock);
+
+    let rendered = modalComponent.render();
+    expect(rendered.querySelector(".modalBody").textContent).toBe("Static Body");
+
+    getCodeStringMock.mockReturnValue(undefined);
+    rendered = modalComponent.render();
+    expect(rendered.querySelector(".modalBody").textContent).toBe("Static Body");
+
+    getCodeStringMock.mockReturnValue(null);
+    rendered = modalComponent.render();
+    expect(rendered.querySelector(".modalBody").textContent).toBe("Static Body");
   });
 });

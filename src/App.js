@@ -4,13 +4,6 @@ import { MenuComponent, LockComponent, ModalComponent } from "./components/index
 /**
  * Initializes and renders the main application for the escape-room game.
  *
- * This function:
- * - Creates the root application container.
- * - Sets up the UI system, including popups and modal components.
- * - Instantiates clue objects and maps them to modal windows.
- * - Registers event listeners for interactive components (hint, inventory, lock, clues).
- * - Appends the application to the document body.
- *
  * @function App
  * @returns {HTMLDivElement} The root application element appended to the DOM.
  */
@@ -31,19 +24,6 @@ export default function App() {
 
   app.appendChild(menuPopup);
 
-  // --- Modal Components -------------------------------------------------------
-  const hintModal = new ModalComponent(
-    "Hint",
-    "Search the room and click on items to reveal clues."
-  );
-
-  const inventoryModal = new ModalComponent(
-    "Inventory",
-    "Add GameController.getCode result here."
-  );
-
-  const lockComponent = new LockComponent();
-
   // --- Clues -----------------------------------------------------------------
   const clues = [
     new Clue("Handwritten Note", "The first number on the lock is 1.", "1"),
@@ -51,6 +31,22 @@ export default function App() {
     new Clue("Diary Entry", "The third number on the lock is 2.", "5"),
     new Clue("Strange Symbol", "The fourth number on the lock is 9.", "9"),
   ];
+
+  // --- Game Controller / Lock ------------------------------------------------
+  const lock = new Lock(1459, "EXIT lock");
+  const gameController = new GameController(clues[0], clues[1], clues[2], clues[3], lock);
+
+  // --- Modal Components -------------------------------------------------------
+  const hintModal = new ModalComponent(
+    "Hint",
+    "Search the room and click on items to reveal clues."
+  );
+
+  const inventoryModal = new ModalComponent("Inventory", "", () =>
+    gameController.getCodeString()
+  );
+
+  const lockComponent = new LockComponent();
 
   const clueModals = clues.map(
     (clue) => new ModalComponent(`Clue - ${clue.name}`, clue.information)

@@ -11,18 +11,27 @@ import "./modal.css";
  *  "Search the room and click on items to reveal clues."
  * );
  *
+ * @example
+ * const inventoryModal = new ModalComponent(
+ *   "Inventory",
+ *   "",
+ *   () => gameController.getCodeString()
+ * );
+ *
  * @class ModalComponent
  */
 export default class ModalComponent {
   /**
    * Creates a new ModalComponent instance.
-   * @param {string} [title=""] - The title text to display in the modal header.
-   * @param {string} [bodyContent=""] - The body text/content of the modal.
+   * @param {string} [title=""]                  Title text displayed in the modal header.
+   * @param {string} [bodyContent=""]            Static body text used when no refresh function is supplied.
+   * @param {Function|null} [refreshBodyFn=null] Optional function that produces updated body content each time the modal renders.
    */
-  constructor(title = "", bodyContent = "") {
+  constructor(title = "", bodyContent = "", refreshBodyFn = null) {
     this.root = this.initComponentHTML();
     this.title = title;
     this.bodyContent = bodyContent;
+    this._refreshBodyFn = refreshBodyFn;
   }
 
   /**
@@ -70,10 +79,37 @@ export default class ModalComponent {
   }
 
   /**
-   * Returns the root DOM element for rendering.
-   * @returns {HTMLElement} The modal's root element.
+   * Uses the refresh function when available and its return value is non-null.
+   * Otherwise restores the last stored static body content.
+   *
+   * @returns {void}
+   */
+  refreshBody() {
+    const bodyDiv = this.root.querySelector(".modalBody");
+    if (!bodyDiv) return;
+
+    if (this._refreshBodyFn) {
+      const val = this._refreshBodyFn();
+
+      if (val !== undefined && val !== null) {
+        const stringValue = String(val);
+        bodyDiv.textContent = stringValue;
+        this._bodyContent = stringValue;
+        return;
+      }
+    }
+
+    // Fallback to stored static body
+    bodyDiv.textContent = this._bodyContent;
+  }
+
+  /**
+   * Always calls refreshBody so render uses the latest content.
+   *
+   * @returns {HTMLElement} The root container of the modal component.
    */
   render() {
+    this.refreshBody();
     return this.root;
   }
 }
