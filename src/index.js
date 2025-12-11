@@ -10,9 +10,11 @@
  */
 
 import "./styles.css";
-import "./css-reset.css"
+import "./components/game.css";
+import "./css-reset.css";
 
 import App from "./App.js";
 
-App();
-
+document.addEventListener("DOMContentLoaded", () => {
+  App();
+});

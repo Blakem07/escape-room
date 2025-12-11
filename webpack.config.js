@@ -24,10 +24,10 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,           // Match .js and .mjs files
-        exclude: /node_modules/,   // Skip dependencies
+        test: /\.m?js$/, // Match .js and .mjs files
+        exclude: /node_modules/, // Skip dependencies
         use: {
-          loader: "babel-loader",  // Uses your babel.config.js
+          loader: "babel-loader", // Uses your babel.config.js
         },
       },
       {
@@ -49,4 +49,3 @@ module.exports = {
     ],
   },
 };
-
