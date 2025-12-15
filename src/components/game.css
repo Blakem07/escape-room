@@ -1,0 +1,263 @@
+/* ================================
+           GENERAL CSS
+================================ */
+
+button {
+  border: none;
+  cursor: pointer;
+}
+body {
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  background-color: #1a1a1a;
+}
+
+/* ================================
+           ROOM COMPONENT
+================================ */
+
+.RoomContainer {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+.sideWall {
+  width: 20%;
+  background-color: #a0a0a0;
+  height: 100vh;
+  position: relative;
+  z-index: 10;
+  background-image: url(../assets/wall.jpg);
+  background-size: 600px 600px;
+}
+.sideWall.left {
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+.sideWall.right {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
+}
+.center {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  height: 70vh;
+  background-color: #2b5f6f;
+}
+.floor {
+  position: absolute;
+  display: flex;
+  bottom: -10vh;
+  left: 0;
+  height: 40vh;
+  width: 100%;
+  background-image: url(../assets/floor.jpg);
+  background-color: #64360c;
+  background-size: 20vh 5vh;
+  transform-origin: top;
+  transform: perspective(30vh) rotateX(34deg);
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================================
+           DOOR COMPONENT
+================================ */
+
+.doorContainer {
+  width: 30%;
+  height: 100%;
+  position: relative;
+}
+.door {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  bottom: 0;
+  right: 0;
+  background-color: #64360c;
+  z-index: 20;
+  box-shadow: inset var(--ShadowD);
+}
+
+/* ================================
+       CENTER ROOM COMPONENT
+================================ */
+
+.centerContainer {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 100%;
+}
+.paintingsContainer {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.painting {
+  display: grid;
+  width: 75%;
+  height: 50%;
+  background-color: #282b26;
+  position: relative;
+  transform: translateY(25%);
+  gap: 10px;
+  padding: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  box-shadow: var(--ShadowG);
+}
+.image {
+  background-color: #c4c4c4;
+  width: 100%;
+  height: 100%;
+}
+
+/* ================================
+            FLOOR COMPONENT
+================================ */
+
+.carpet {
+  position: absolute;
+  width: 35%;
+  height: 40%;
+  background-color: #1a1a1a;
+  z-index: 20;
+  transform: translateY(-50%);
+  box-shadow: var(--ShadowG);
+  border-radius: 3%;
+}
+.HiddenCompartment {
+  position: absolute;
+  width: 10%;
+  height: 30%;
+  background-color: #291e14;
+  z-index: 10;
+  transform: translate(190%, -55%);
+  box-shadow: var(--ShadowG);
+}
+
+/* ================================
+            DRAWER COMPONENT
+================================ */
+
+.drawerContainer {
+  display: flex;
+  width: 100%;
+  height: 30%;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  overflow: visible;
+}
+.drawer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+  width: 60%;
+  height: 100%;
+  background-color: #c4c4c4;
+  position: relative;
+  transform: translateY(25%);
+  z-index: 20;
+  box-shadow: var(--ShadowG);
+}
+.cabinetDoors {
+  background-color: #dfdfdd;
+  box-shadow: var(--ShadowL);
+}
+.cabinetDoors.Right,
+.cabinetDoors.Left {
+  display: flex;
+  width: 60%;
+  justify-content: right;
+  align-items: center;
+}
+.cabinetDoors.Right {
+  justify-content: left !important;
+}
+.cabinetDoors.Mid {
+  display: flex;
+  width: 100%;
+  height: 30%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================================
+    HANDLES/DOORKNOB COMPONENT
+================================ */
+
+.handle,
+.doorknob {
+  transform: translateY(-50%);
+  border-radius: 50px;
+  background-color: #f7b322;
+}
+.handle {
+  width: 60%;
+  height: 20%;
+  transform: translateY(-50%);
+}
+.doorknob {
+  margin: 8%;
+  width: 2vh;
+  height: 2vh;
+  box-shadow: var(--ShadowG);
+}
+
+/* ================================
+        GAME BUTTON COMPONENT
+================================ */
+
+.ButtonContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: 40px;
+  top: 0;
+  z-index: 100;
+  place-items: center;
+  padding-right: 75px;
+  gap: 25px;
+}
+#GameButtons {
+  height: 75px;
+  width: 75px;
+  border-radius: 10px;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: var(--ShadowG);
+}
+.Inventory {
+  background-color: #ca3c3f;
+  background-image: url(../assets/Inventory.png);
+}
+.Hint {
+  background-color: #e4b053;
+  background-image: url(../assets/Hint.png);
+}
+
+.Inventory:active {
+  background-color: rgb(179, 56, 58);
+  transform: translateY(2px);
+  box-shadow: var(--Shadow);
+}
+.Hint:active {
+  background-color: #cfa04f;
+  transform: translateY(2px);
+  box-shadow: var(--Shadow);
+}

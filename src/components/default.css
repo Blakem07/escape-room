@@ -1,0 +1,57 @@
+.Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.showObj {
+  visibility: visible !important;
+}
+
+/* ================================
+           CUSTOM VARIABLES
+================================ */
+
+:root {
+  /* Colour */
+
+  --ClrNeutral1: #e4e4e4;
+  --ClrNeutral2: #f5f5f5;
+  --ClrKPBrdr: #cfcfcf;
+  --ClrLghtBrdr: #b2b2b2;
+  --ClrPass: #4ca04f;
+  --ClrPassB: #3e8041;
+  --ClrError: #bf3333;
+  --ClrErrorB: #8f2828;
+  --ClrWarn: #ff9800;
+
+  --Shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --ShadowL: 0 2px 5px rgba(0, 0, 0, 0.2);
+  --ClrNeutral2-hover: #ebebeb;
+  --ClrNeutral2-active: #d8d8d8;
+  --Shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.25);
+  --Shadow-active: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  /* Sizing */
+
+  --LightSize: 2.5rem;
+  --Button-Width: 6.25rem;
+  --Button-Height: 4.375rem;
+  --FontS: 1.3rem;
+  --FontW: 500;
+
+  --CloseButtonSize: 2rem;
+
+  /* Spacing */
+
+  --spaceS: 0.9375rem;
+  --spaceM: 1.875rem;
+  --spaceL: 2.5rem;
+  --spaceXL: 5rem;
+
+  /* Radius */
+  --radiusS: 0.625rem;
+
+  /* Transitions */
+
+  --transition: 0.2s ease;
+}

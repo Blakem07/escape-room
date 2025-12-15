@@ -1,0 +1,116 @@
+/* ================================
+           KEYPAD COMPONENT
+================================ */
+
+.keypad {
+  display: flex;
+  background-color: var(--ClrNeutral1);
+  padding: var(--spaceL);
+  border-radius: var(--radiusS);
+  flex-direction: column;
+  gap: var(--spaceM);
+  position: relative;
+  box-shadow: var(--ShadowL);
+}
+.KPIndicators {
+  display: flex;
+  justify-content: center;
+  gap: var(--spaceM);
+}
+.KPLight {
+  width: var(--LightSize);
+  height: var(--LightSize);
+  border-radius: 50%;
+  background-color: transparent;
+  border-color: var(--ClrLghtBrdr);
+  border-style: solid;
+  border-width: thin;
+  box-shadow: inset var(--ShadowL);
+}
+.lghtPass {
+  background-color: var(--ClrPass);
+  border-color: var(--ClrPassB);
+}
+.lghtErr {
+  background-color: var(--ClrError);
+  border-color: var(--ClrErrorB);
+}
+
+/* ================================
+           NUMPAD COMPONENT
+================================ */
+
+.numpad {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceS);
+}
+.numRow {
+  display: flex;
+  gap: var(--spaceS);
+}
+.numColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceS);
+}
+.numKey {
+  width: var(--Button-Width);
+  height: var(--Button-Height);
+  background: var(--ClrNeutral2);
+  border: solid;
+  border-radius: var(--radiusS);
+  border-color: var(--ClrKPBrdr);
+  font-size: var(--FontS);
+  font-weight: var(--FontW);
+  font-family: inherit;
+  cursor: pointer;
+  color: black;
+  box-shadow: var(--ShadowL);
+}
+.numKey:hover {
+  background-color: #ebebeb;
+}
+.numKey:active {
+  background-color: #ebebeb;
+  transform: translateY(2px);
+  box-shadow: var(--Shadow);
+}
+.numClear {
+  width: 13.4375rem;
+}
+.numEnter {
+  height: 15rem;
+}
+.errCode {
+  position: absolute;
+  text-align: center;
+  width: 62.5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--ClrWarn);
+  color: white;
+  padding: 1.25rem 3.75rem;
+  border-radius: var(--radiusS);
+  font-size: var(--FontS);
+  font-weight: var(--FontW);
+
+  visibility: hidden;
+}
+.unlocked {
+  position: absolute;
+  text-align: center;
+  width: 62.5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--ClrPass);
+  color: white;
+  padding: 1.25rem 3.75rem;
+  border-radius: var(--radiusS);
+  font-size: var(--FontS);
+  font-weight: var(--FontW);
+
+  visibility: hidden;
+}
