@@ -1,3 +1,5 @@
+import GameController from "./GameController";
+
 /**
  * Manages creation and interaction of UI elements such as popups,
  * overlays, buttons, and event-driven components.
@@ -21,7 +23,7 @@ export default class UI {
    *
    * @returns {void}
    */
-  initEventListeners(componentMap) {
+  initEventListeners(componentMap, gameController) {
     const body = document.body;
 
     Object.entries(componentMap).forEach(([selector, component]) => {
@@ -36,6 +38,12 @@ export default class UI {
             overlay: () => this.createBlurOverlay(),
             closeCallBack: this.closePopup,
           });
+
+          if(gameController instanceof GameController){
+            gameController.getInput(selector);
+          }else{
+            console.error("Given argument is not a gamecontroller object.");
+          }
 
           body.appendChild(popup);
         });

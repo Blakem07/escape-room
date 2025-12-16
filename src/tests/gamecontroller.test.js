@@ -38,10 +38,7 @@ describe("GameController class tests", () => {
     //check if it properly incremented clueCount
     expect(gamecontroller.clueCount).toBe(1);
     gamecontroller.increaseClueCount(clue1);
-    //check if error has been thrown for duplicate clue
-    expect(console.error).toHaveBeenCalledWith(
-      "Duplicate error: This clue has already been found once."
-    );
+    expect(gamecontroller.clueCount).toBe(1);
   });
 
   test("GameController.increaseClueCount() should only increase the count if the given parameter is a clue", () => {
@@ -81,13 +78,6 @@ describe("GameController class tests", () => {
       expect(gamecontroller.lock).toBe(lock);
       expect(console.error).not.toHaveBeenCalled();
     });
-
-  test("GameController.playGame ends the game when the correct lock solution is given", async () => {
-    jest.spyOn(gamecontroller, "getInput").mockResolvedValueOnce(1234);
-
-    await gamecontroller.playGame();
-    expect(gamecontroller.gameComplete).toBe(true);
-  });
 
   test("test GameController.getCodeString returns appropriate code strings", () => {
   const gamecontroller = new GameController();

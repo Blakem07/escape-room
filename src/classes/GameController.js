@@ -1,5 +1,7 @@
 import Clue from "./Clue";
 import Lock from "./lock";
+import UI from "./UI";
+import ModalComponent from "../components/ModalComponent";
 
 /**
  * Controls the escape-room game state: tracking found clues, progression
@@ -76,6 +78,7 @@ export default class GameController {
       this._lock = new Lock(1111, "number lock");
     }
     this._clues = [this._clue1, this._clue2, this._clue3, this._clue4];
+    this._currentLockInput = "";
   }
 
   get gameComplete() {
@@ -137,7 +140,7 @@ export default class GameController {
             clue.discover();
             this.clueCount += 1;
         }else if(clue instanceof Clue && clue.isFound ){
-            console.error("Duplicate error: This clue has already been found once.");
+            return;
         }else{
             console.error("Invalid clue: Given parameter is not a Clue.");
         }
@@ -146,31 +149,89 @@ export default class GameController {
     }
 
   /**
-   * Mark the game as complete.
+   * Mark the game as complete and displays a popup to congratulate the player.
    *
    * @returns {void}
    */
   completeGame() {
     this._gameComplete = true;
-  }
+    
+    const userInterface = new UI();
+    const documentBody = document.body;
 
-  getInput() {
-    return 0;
+    //Game completion popup
+    const completeModal = new ModalComponent("Congratulations!", "You've unlocked the door and escaped the room");
+
+    const completePopup = userInterface.createPopup({
+      content: () => completeModal.render(),
+      overlay: () => userInterface.createBlurOverlay(),
+      closeCallBack: () => {
+        //reloads the page after the close button is pressed in order to restart the game
+        window.location.reload();
+        return;
+      },
+    });
+  
+    documentBody.appendChild(completePopup);
   }
 
   /**
-   * Main game loop that processes player actions until the game is complete.
-   *
+   * Gets input from the UI class' click events to set clues as found
    *
    * @returns {void}
    */
-  async playGame() {
-    while (!this.gameComplete) {
-      //for now lets assume we get input as an array containing: {clue/lock, cluename/locksolution}
-      let input = await this.getInput();
-      if (this.lock.checkSolution(input)) {
-        this.completeGame();
-      }
+  getInput(selector) {
+    switch(selector){
+      case ".Clue1":
+        this.increaseClueCount(this._clue1);
+        break;
+      case ".Clue2":
+        this.increaseClueCount(this._clue2);
+        break;
+      case ".Clue3":
+        this.increaseClueCount(this._clue3);
+        break;
+      case ".Clue4":
+        this.increaseClueCount(this._clue4);
+        break;
+    }
+  }
+
+  /**
+   * Function called by LockComponents when the enter button on the keypad is pressed.
+   * Compares the current input value to the lock's solution and calls completeGame if they match.
+   *
+   * @returns {void}
+   */
+  lockEnter(){
+    if(this._lock.checkSolution(parseInt(this._currentLockInput))){
+      this.completeGame();
+    }
+  }
+
+  /**
+   * Function called by LockComponents when the clear button on the keypad is pressed.
+   * clears the current input value so new digits can be added.
+   *
+   * @returns {void}
+   */
+  lockClear(){
+    this._currentLockInput = "";
+  }
+
+  /**
+   * Function called by LockComponents when any number button on the keypad is pressed.
+   * Appends the pressed digit to the current input value property of this class
+   *
+   * @returns {void}
+   */
+  lockInput(digit){
+    if(!this._currentLockInput){
+      this._currentLockInput = digit.toString();
+    }else if(this._currentLockInput.length < 4){
+      this._currentLockInput = this._currentLockInput + digit.toString();
+    }else{
+      return;
     }
   }
 }
