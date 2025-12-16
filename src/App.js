@@ -34,7 +34,7 @@ export default function App() {
 
   // --- Game Controller / Lock ------------------------------------------------
   const lock = new Lock(1459, "EXIT lock");
-  const gameController = new GameController(clues[0], clues[1], clues[2], clues[3], lock);
+  const gameController = new GameController(clues[0], clues[1], clues[2], clues[3], lock, ui.createPopup.bind(ui), ui.createBlurOverlay.bind(ui));
 
   // --- Modal Components -------------------------------------------------------
   const hintModal = new ModalComponent(
@@ -63,7 +63,7 @@ export default function App() {
     ".Clue4": clueModals[3],
   };
 
-  ui.initEventListeners(componentMap, gameController);
+  ui.initEventListeners(componentMap, gameController.getInput.bind(gameController));
   
   document.body.appendChild(app);
   return app;
