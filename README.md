@@ -71,7 +71,7 @@ The project follows a loosely coupled, event-driven architecture:
   Represents the final puzzle lock and encapsulates solution validation and solved state. Contains no UI logic and is consumed by GameController.
 
 * **GameController**
-  Owns overall game state and progression logic, coordinating Clue discovery and Lock validation. Does not interact with the DOM directly.
+  Owns overall game state and progression logic, coordinating Clue discovery and Lock validation.
 
 * **App (App.js)**
   Acts as the wiring layer that connects UI events to GameController methods.
