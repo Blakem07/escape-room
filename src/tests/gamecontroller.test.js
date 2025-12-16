@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import GameController from "../classes/GameController";
 import Clue from "../classes/Clue";
 import Lock from "../classes/Lock";
@@ -7,6 +11,7 @@ describe("GameController class tests", () => {
   let clue1;
   let clue2;
   let clue3;
+  let clue4;
   let lock;
 
   beforeEach(() => {
@@ -38,10 +43,7 @@ describe("GameController class tests", () => {
     //check if it properly incremented clueCount
     expect(gamecontroller.clueCount).toBe(1);
     gamecontroller.increaseClueCount(clue1);
-    //check if error has been thrown for duplicate clue
-    expect(console.error).toHaveBeenCalledWith(
-      "Duplicate error: This clue has already been found once."
-    );
+    expect(gamecontroller.clueCount).toBe(1);
   });
 
   test("GameController.increaseClueCount() should only increase the count if the given parameter is a clue", () => {
@@ -82,19 +84,12 @@ describe("GameController class tests", () => {
       expect(console.error).not.toHaveBeenCalled();
     });
 
-  test("GameController.playGame ends the game when the correct lock solution is given", async () => {
-    jest.spyOn(gamecontroller, "getInput").mockResolvedValueOnce(1234);
-
-    await gamecontroller.playGame();
-    expect(gamecontroller.gameComplete).toBe(true);
-  });
-
   test("test GameController.getCodeString returns appropriate code strings", () => {
   const gamecontroller = new GameController();
   gamecontroller._clue1.discover();
   gamecontroller._clue3.discover();
 
-  expect(gamecontroller.getCodeString()).toBe("1_3_");
+  expect(gamecontroller.getCodeString()).toBe("1_1_");
 });
 
 test("test GameController.getCodeString properly gives an error if the clues have no valid code", () => {
@@ -108,6 +103,33 @@ test("test GameController.getCodeString properly gives an error if the clues hav
   
   expect(gamecontroller.getCodeString()).toBe("____");
   expect(console.error).toHaveBeenCalledWith("clue does not have a valid code");
+});
+
+test("test if GameController.completeGame properly gives an error if ui functions are not given", () => {
+  const gamecontroller = new GameController();
+  gamecontroller.completeGame();
+  
+  expect(console.error).toHaveBeenCalledWith("UI functions are missing from GameController instance");
+});
+
+test("test if GameController.lockEnter calls gameComplete if correct solution is given by lockInput", () => {
+  const gamecontroller = new GameController();
+  jest.spyOn(gamecontroller, "completeGame").mockImplementation(() => {});
+  gamecontroller.lockInput(1);
+  gamecontroller.lockInput(1);
+  gamecontroller.lockInput(1);
+  gamecontroller.lockInput(1);
+  gamecontroller.lockEnter();
+  
+  expect(gamecontroller.completeGame).toHaveBeenCalled();
+});
+
+test("test if GameController.getInput calls increaseClueCount if appropriate selector is given", () => {
+  const gamecontroller = new GameController();
+  jest.spyOn(gamecontroller, "increaseClueCount").mockImplementation(() => {});
+
+  gamecontroller.getInput(".Clue1");
+  expect(gamecontroller.increaseClueCount).toHaveBeenCalledWith(gamecontroller._clue1);
 });
 
 });

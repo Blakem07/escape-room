@@ -28,13 +28,13 @@ export default function App() {
   const clues = [
     new Clue("Handwritten Note", "The first number on the lock is 1.", "1"),
     new Clue("Photograph", "The second number on the lock is 4.", "4"),
-    new Clue("Diary Entry", "The third number on the lock is 2.", "5"),
+    new Clue("Diary Entry", "The third number on the lock is 5.", "5"),
     new Clue("Strange Symbol", "The fourth number on the lock is 9.", "9"),
   ];
 
   // --- Game Controller / Lock ------------------------------------------------
   const lock = new Lock(1459, "EXIT lock");
-  const gameController = new GameController(clues[0], clues[1], clues[2], clues[3], lock);
+  const gameController = new GameController(clues[0], clues[1], clues[2], clues[3], lock, ui.createPopup.bind(ui), ui.createBlurOverlay.bind(ui));
 
   // --- Modal Components -------------------------------------------------------
   const hintModal = new ModalComponent(
@@ -46,7 +46,7 @@ export default function App() {
     gameController.getCodeString()
   );
 
-  const lockComponent = new LockComponent();
+  const lockComponent = new LockComponent(gameController.lockInput.bind(gameController), gameController.lockEnter.bind(gameController), gameController.lockClear.bind(gameController));
 
   const clueModals = clues.map(
     (clue) => new ModalComponent(`Clue - ${clue.name}`, clue.information)
@@ -63,8 +63,8 @@ export default function App() {
     ".Clue4": clueModals[3],
   };
 
-  ui.initEventListeners(componentMap);
-
+  ui.initEventListeners(componentMap, gameController.getInput.bind(gameController));
+  
   document.body.appendChild(app);
   return app;
 }
