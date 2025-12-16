@@ -23,7 +23,7 @@ export default class UI {
    *
    * @returns {void}
    */
-  initEventListeners(componentMap, gameController) {
+  initEventListeners(componentMap, getInput) {
     const body = document.body;
 
     Object.entries(componentMap).forEach(([selector, component]) => {
@@ -39,10 +39,8 @@ export default class UI {
             closeCallBack: this.closePopup,
           });
 
-          if(gameController instanceof GameController){
-            gameController.getInput(selector);
-          }else{
-            console.error("Given argument is not a gamecontroller object.");
+          if(getInput){
+            getInput(selector);
           }
 
           body.appendChild(popup);
