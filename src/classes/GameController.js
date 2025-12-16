@@ -1,6 +1,5 @@
 import Clue from "./Clue";
 import Lock from "./lock";
-import UI from "./UI";
 import ModalComponent from "../components/ModalComponent";
 
 /**
@@ -14,6 +13,8 @@ import ModalComponent from "../components/ModalComponent";
  * @param {Clue} clue3 - third clue
  * @param {Clue} clue4 - fourth clue
  * @param {Lock} lock - lock instance containing the solution to the puzzle
+ * @param {function():HTMLDivElement} createPopup function that creates a popup in the UI 
+ * @param {function():HTMLDivElement} createBlurOverlay UI function that adds a blur overlay to the created popup
  */
 export default class GameController {
   constructor(
@@ -25,19 +26,21 @@ export default class GameController {
     clue2 = new Clue(
       "default clue 2",
       "default clue if no parameter is given",
-      "2"
+      "1"
     ),
     clue3 = new Clue(
       "default clue 3",
       "default clue if no parameter is given",
-      "3"
+      "1"
     ),
     clue4 = new Clue(
       "default clue 4",
       "default clue if no parameter is given",
-      "4"
+      "1"
     ),
-    lock = new Lock(1111, "number lock")
+    lock = new Lock(1111, "number lock"),
+    createPopup,
+    createBlurOverlay
   ) {
     this.clueCount = 0;
     this._progressionPercentage = 0;
@@ -47,13 +50,15 @@ export default class GameController {
       clue2 instanceof Clue &&
       clue3 instanceof Clue &&
       clue4 instanceof Clue &&
-      lock instanceof Lock
+      lock instanceof Lock 
     ) {
       this._clue1 = clue1;
       this._clue2 = clue2;
       this._clue3 = clue3;
       this._clue4 = clue4;
       this._lock = lock;
+      this._createPopup = createPopup;
+      this._createBlurOverlay = createBlurOverlay;
     } else {
       console.error(
         "Parameter error: passed clues or locks are not instances of the clue or lock class."
@@ -61,22 +66,27 @@ export default class GameController {
       //set clues and locks to default
       this._clue1 = new Clue(
         "default clue 1",
-        "default clue if no parameter is given"
+        "default clue if no parameter is given",
+        "1"
       );
       this._clue2 = new Clue(
         "default clue 2",
-        "default clue if no parameter is given"
+        "default clue if no parameter is given",
+        "1"
       );
       this._clue3 = new Clue(
         "default clue 3",
-        "default clue if no parameter is given"
+        "default clue if no parameter is given",
+        "1"
       );
       this._clue4 = new Clue(
         "default clue 4",
-        "default clue if no parameter is given"
+        "default clue if no parameter is given",
+        "1"
       );
       this._lock = new Lock(1111, "number lock");
     }
+
     this._clues = [this._clue1, this._clue2, this._clue3, this._clue4];
     this._currentLockInput = "";
   }
@@ -156,15 +166,19 @@ export default class GameController {
   completeGame() {
     this._gameComplete = true;
     
-    const userInterface = new UI();
     const documentBody = document.body;
+
+    if(!this._createPopup || !this._createBlurOverlay){
+      console.error("UI functions are missing from GameController instance");
+      return;
+    }
 
     //Game completion popup
     const completeModal = new ModalComponent("Congratulations!", "You've unlocked the door and escaped the room");
 
-    const completePopup = userInterface.createPopup({
+    const completePopup = this._createPopup({
       content: () => completeModal.render(),
-      overlay: () => userInterface.createBlurOverlay(),
+      overlay: () => this._createBlurOverlay(),
       closeCallBack: () => {
         //reloads the page after the close button is pressed in order to restart the game
         window.location.reload();
@@ -206,6 +220,9 @@ export default class GameController {
   lockEnter(){
     if(this._lock.checkSolution(parseInt(this._currentLockInput))){
       this.completeGame();
+    }else{
+      //clears the lock combination if incorrect combination is given
+      this.lockClear();
     }
   }
 
