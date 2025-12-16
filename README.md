@@ -2,18 +2,20 @@
 
 This project is a browser-based escape room game built with vanilla JavaScript. The application is structured around a modular UI system and a game state controller, with a focus on separation of concerns, testability, and a clear event-driven architecture.
 
-At the time of submission, the front-end architecture and UI component layer are complete and fully tested. Game logic is encapsulated within the GameController module.
+At the time of submission, the front-end architecture, UI component layer, and core game flow are complete and fully tested. Game logic is encapsulated within the GameController module and integrated to allow full game completion.
+
+The project is hosted via GitHub Pages and can be accessed at: https://blakem07.github.io/escape-room/
 
 ---
 
 ## Features
 
-- Modular UI system with popup and overlay management
-- Reusable UI components (Menu, Modal, LockComponent, Clue)
-- Event-driven interaction flow
-- Centralised game state management via GameController
-- Jest test suite with CI support
-- Demo-ready UI build
+* Modular UI system with popup and overlay management
+* Reusable UI components (Menu, Modal, LockComponent, Clue)
+* Event-driven interaction flow from UI to game logic
+* Centralised game state management via GameController
+* Jest test suite with CI support
+* Fully playable game flow from clue discovery to lock completion
 
 ---
 
@@ -48,7 +50,7 @@ src/
     ├── *.test.js
     └── visual/
         └── popup.preview.js
-````
+```
 
 ---
 
@@ -114,15 +116,7 @@ This separation allows UI and game logic to evolve independently and keeps testi
 
 ## Demo Notes
 
-A UI-only demo build is available to showcase interaction flow and completed front-end work. Game logic is isolated within the GameController and can be demonstrated independently if required.
-
----
-
-## Contribution Notes
-
-* UI and component architecture are complete and stable
-* Further development should focus on extending or refining GameController logic without modifying UI internals
-* UI components should communicate only via callbacks, not direct imports
+The project supports a complete, playable game flow demonstrating clue discovery, lock input, and successful game completion through the integrated UI and GameController.
 
 ---
 
@@ -130,7 +124,7 @@ A UI-only demo build is available to showcase interaction flow and completed fro
 
 ### Development
 
-* Repository management, overall architecture, workflows, app wiring, UI system, components, and Clue logic: **Blake M.**
+* Repository management, overall architecture, workflows, documentation, app wiring, UI system, components, and Clue logic: **Blake M.**
 * Lock game logic and HTML/CSS: **Alex W.**
 * GameController implementation: **Ben G.**
 
