@@ -13,6 +13,7 @@ describe("UI Class Tests", () => {
   let closeCallbackMock;
   let createComponentMock;
   let modalMock;
+  let getInputMock;
 
   beforeEach(() => {
     ui = new UI();
@@ -44,6 +45,7 @@ describe("UI Class Tests", () => {
         return modal;
       }),
     };
+    getInputMock = jest.fn();
   });
 
   afterEach(() => {
@@ -105,6 +107,19 @@ describe("UI Class Tests", () => {
 
     const popups = document.querySelectorAll(".popup");
     expect(popups.length).toBe(clueButtons.length);
+  });
+
+  test("UI.initEventListeners calls the getInput callback if passed as an argument", () => {
+    const clueButtons = document.querySelectorAll(".Clue");
+    expect(clueButtons.length).toBeGreaterThan(1);
+
+    ui.initEventListeners({ ".Clue": modalMock }, getInputMock);
+
+    expect(getInputMock).not.toHaveBeenCalled;
+    clueButtons.forEach((button) => {
+      button.click();
+    });
+    expect(getInputMock).toHaveBeenCalledTimes(clueButtons.length);
   });
 
   test("UI.createPopup should return a div with the popup class", () => {
@@ -227,9 +242,7 @@ describe("UI Class Tests", () => {
       const overlayElement = popup.querySelector(".popup-overlay");
       expect(overlayElement).toBeNull();
       popup.childNodes.forEach((child) => {
-        expect(
-          child.classList && child.classList.contains("popup-overlay")
-        ).toBe(false);
+        expect(child.classList && child.classList.contains("popup-overlay")).toBe(false);
       });
     });
   });
