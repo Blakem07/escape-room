@@ -116,19 +116,19 @@ export default class GameController {
   }
 
   /**
-     * returns a string displaying which clues have been 
-     * found by displaying its code property in a string
-     *
-     * @returns {string} The code with unfound clues obscured
-     */
-  getCodeString(){
+   * returns a string displaying which clues have been
+   * found by displaying its code property in a string
+   *
+   * @returns {string} The code with unfound clues obscured
+   */
+  getCodeString() {
     let result = "";
-    this._clues.forEach(clue => {
-      if(clue.isFound && (clue.code || clue.code === 0) && (String(clue.code).length == 1)){
+    this._clues.forEach((clue) => {
+      if (clue.isFound && (clue.code || clue.code === 0) && String(clue.code).length == 1) {
         result += clue.code;
-      }else if(!clue.isFound && clue.code){
+      } else if (!clue.isFound && clue.code) {
         result += "_";
-      }else{
+      } else {
         console.error("clue does not have a valid code");
         result += "_";
       }
@@ -157,6 +157,9 @@ export default class GameController {
         
         return this.clueCount;
     }
+
+    return this.clueCount;
+  }
 
   /**
    * Mark the game as complete and displays a popup to congratulate the player.

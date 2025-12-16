@@ -4,7 +4,7 @@
 
 import GameController from "../classes/GameController";
 import Clue from "../classes/Clue";
-import Lock from "../classes/lock";
+import Lock from "../classes/Lock";
 
 describe("GameController class tests", () => {
   let gamecontroller;

@@ -15,7 +15,7 @@
  * 
  */
 
-export default class Lock{
+export default class Lock {
     /**
      * Creates a lock
      * @param {number} solution - Solution of the lock.
