@@ -3,7 +3,6 @@
  */
 
 import UI from "../classes/UI";
-import GameController from "../classes/GameController";
 
 describe("UI Class Tests", () => {
   let ui;
@@ -54,7 +53,7 @@ describe("UI Class Tests", () => {
   test("UI.initEventListeners hint button shows hint popup on click", () => {
     const hintButton = document.querySelector(".Hint");
 
-    ui.initEventListeners({ ".Hint": modalMock }, new GameController());
+    ui.initEventListeners({ ".Hint": modalMock });
     hintButton.click();
 
     expect(createPopupSpy).toHaveBeenCalledTimes(1);
@@ -67,7 +66,7 @@ describe("UI Class Tests", () => {
   test("UI.initEventListeners inventory button shows inventory popup on click", () => {
     const inventoryButton = document.querySelector(".Inventory");
 
-    ui.initEventListeners({ ".Inventory": modalMock }, new GameController());
+    ui.initEventListeners({ ".Inventory": modalMock });
     inventoryButton.click();
 
     expect(createPopupSpy).toHaveBeenCalledTimes(1);
@@ -80,7 +79,7 @@ describe("UI Class Tests", () => {
   test("UI.initEventListeners lock button shows lock popup on click", () => {
     const lockButton = document.querySelector(".Lock");
 
-    ui.initEventListeners({ ".Lock": modalMock }, new GameController());
+    ui.initEventListeners({ ".Lock": modalMock });
     lockButton.click();
 
     expect(createPopupSpy).toHaveBeenCalledTimes(1);
@@ -94,7 +93,7 @@ describe("UI Class Tests", () => {
     const clueButtons = document.querySelectorAll(".Clue");
     expect(clueButtons.length).toBeGreaterThan(1);
 
-    ui.initEventListeners({ ".Clue": modalMock }, new GameController());
+    ui.initEventListeners({ ".Clue": modalMock });
 
     clueButtons.forEach((button) => {
       button.click();
