@@ -1,4 +1,4 @@
-import Lock from "../classes/lock";
+import Lock from "../classes/Lock";
 
 describe("Lock Class Test", () => {
     let lock;

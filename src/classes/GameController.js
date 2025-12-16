@@ -1,5 +1,5 @@
 import Clue from "./Clue";
-import Lock from "./lock";
+import Lock from "./Lock";
 
 /**
  * Controls the escape-room game state: tracking found clues, progression
@@ -15,26 +15,10 @@ import Lock from "./lock";
  */
 export default class GameController {
   constructor(
-    clue1 = new Clue(
-      "default clue 1",
-      "default clue if no parameter is given",
-      "1"
-    ),
-    clue2 = new Clue(
-      "default clue 2",
-      "default clue if no parameter is given",
-      "2"
-    ),
-    clue3 = new Clue(
-      "default clue 3",
-      "default clue if no parameter is given",
-      "3"
-    ),
-    clue4 = new Clue(
-      "default clue 4",
-      "default clue if no parameter is given",
-      "4"
-    ),
+    clue1 = new Clue("default clue 1", "default clue if no parameter is given", "1"),
+    clue2 = new Clue("default clue 2", "default clue if no parameter is given", "2"),
+    clue3 = new Clue("default clue 3", "default clue if no parameter is given", "3"),
+    clue4 = new Clue("default clue 4", "default clue if no parameter is given", "4"),
     lock = new Lock(1111, "number lock")
   ) {
     this.clueCount = 0;
@@ -57,22 +41,10 @@ export default class GameController {
         "Parameter error: passed clues or locks are not instances of the clue or lock class."
       );
       //set clues and locks to default
-      this._clue1 = new Clue(
-        "default clue 1",
-        "default clue if no parameter is given"
-      );
-      this._clue2 = new Clue(
-        "default clue 2",
-        "default clue if no parameter is given"
-      );
-      this._clue3 = new Clue(
-        "default clue 3",
-        "default clue if no parameter is given"
-      );
-      this._clue4 = new Clue(
-        "default clue 4",
-        "default clue if no parameter is given"
-      );
+      this._clue1 = new Clue("default clue 1", "default clue if no parameter is given");
+      this._clue2 = new Clue("default clue 2", "default clue if no parameter is given");
+      this._clue3 = new Clue("default clue 3", "default clue if no parameter is given");
+      this._clue4 = new Clue("default clue 4", "default clue if no parameter is given");
       this._lock = new Lock(1111, "number lock");
     }
     this._clues = [this._clue1, this._clue2, this._clue3, this._clue4];
@@ -103,19 +75,19 @@ export default class GameController {
   }
 
   /**
-     * returns a string displaying which clues have been 
-     * found by displaying its code property in a string
-     *
-     * @returns {string} The code with unfound clues obscured
-     */
-  getCodeString(){
+   * returns a string displaying which clues have been
+   * found by displaying its code property in a string
+   *
+   * @returns {string} The code with unfound clues obscured
+   */
+  getCodeString() {
     let result = "";
-    this._clues.forEach(clue => {
-      if(clue.isFound && (clue.code || clue.code === 0) && (String(clue.code).length == 1)){
+    this._clues.forEach((clue) => {
+      if (clue.isFound && (clue.code || clue.code === 0) && String(clue.code).length == 1) {
         result += clue.code;
-      }else if(!clue.isFound && clue.code){
+      } else if (!clue.isFound && clue.code) {
         result += "_";
-      }else{
+      } else {
         console.error("clue does not have a valid code");
         result += "_";
       }
@@ -123,27 +95,27 @@ export default class GameController {
     return result;
   }
 
-    /**
-     * Attempt to mark a Clue as found and increase the clue count
-     * - If a valid, unfound Clue is provided, increments and marks it found
-     * - If a Clue is provided but already found, logs a "duplicate error"
-     * - Otherwise logs an "invalid clue" error
-     *
-     * @param {Clue|any} clue - Clue instance to mark as found
-     * @returns {number} The updated clue count
-     */
-    increaseClueCount(clue){
-        if(clue instanceof Clue && !clue.isFound){
-            clue.discover();
-            this.clueCount += 1;
-        }else if(clue instanceof Clue && clue.isFound ){
-            console.error("Duplicate error: This clue has already been found once.");
-        }else{
-            console.error("Invalid clue: Given parameter is not a Clue.");
-        }
-        
-        return this.clueCount;
+  /**
+   * Attempt to mark a Clue as found and increase the clue count
+   * - If a valid, unfound Clue is provided, increments and marks it found
+   * - If a Clue is provided but already found, logs a "duplicate error"
+   * - Otherwise logs an "invalid clue" error
+   *
+   * @param {Clue|any} clue - Clue instance to mark as found
+   * @returns {number} The updated clue count
+   */
+  increaseClueCount(clue) {
+    if (clue instanceof Clue && !clue.isFound) {
+      clue.discover();
+      this.clueCount += 1;
+    } else if (clue instanceof Clue && clue.isFound) {
+      console.error("Duplicate error: This clue has already been found once.");
+    } else {
+      console.error("Invalid clue: Given parameter is not a Clue.");
     }
+
+    return this.clueCount;
+  }
 
   /**
    * Mark the game as complete.

@@ -1,184 +1,141 @@
-# Webpack Template
+## Project Overview
 
-## Description
+This project is a browser-based escape room game built with vanilla JavaScript. The application is structured around a modular UI system and a game state controller, with a focus on separation of concerns, testability, and a clear event-driven architecture.
 
-Webpack template for a quicker start to development when using Webpack.
+At the time of submission, the front-end architecture and UI component layer are complete and fully tested. Game logic is encapsulated within the GameController module.
 
-This template handles:
+---
 
-- HTML
-- CSS
-- JavaScript
-- Images
-- Fonts
-- Webpack Dev Server
-- Jest testing
-- GitHub Pages deployment
+## Features
 
-## Installation Instructions
+- Modular UI system with popup and overlay management
+- Reusable UI components (Menu, Modal, LockComponent, Clue)
+- Event-driven interaction flow
+- Centralised game state management via GameController
+- Jest test suite with CI support
+- Demo-ready UI build
 
-1. Clone this repo:
+---
 
-   ```bash
-   git clone https://github.com/Blakem07/webpack-template.git
+## Project Structure
 
+```text
+src/
+├── App.js              # Application wiring / bootstrap
+├── index.js            # Entry point
+├── styles.css          # Global styles
+├── css-reset.css       # CSS reset
+├── template.html       # Base HTML template
+│
+├── assets/             # Static assets
+│   └── images, icons
+│
+├── classes/            # Core application & game logic
+│   ├── UI.js
+│   ├── GameController.js
+│   ├── Clue.js
+│   ├── Lock.js
+│   └── index.js
+│
+├── components/         # UI components + component-scoped styles
+│   ├── LockComponent.js
+│   ├── MenuComponent.js
+│   ├── ModalComponent.js
+│   ├── *.css
+│   └── index.js
+│
+└── tests/              # Test suite
+    ├── *.test.js
+    └── visual/
+        └── popup.preview.js
+````
 
-2. Install dependencies:
+---
 
-   ```bash
+## Architecture Overview
+
+The project follows a loosely coupled, event-driven architecture:
+
+* **UI**
+  Responsible only for DOM interaction, rendering, and emitting user intent via callbacks.
+
+* **Components**
+  Self-contained UI elements (Menu, Modal, LockComponent) that emit events but contain no game logic.
+
+* **Clue**
+  Represents discoverable game clues and their associated data and state.
+
+* **Lock**
+  Represents the final puzzle lock and encapsulates solution validation and solved state. Contains no UI logic and is consumed by GameController.
+
+* **GameController**
+  Owns overall game state and progression logic, coordinating Clue discovery and Lock validation. Does not interact with the DOM directly.
+
+* **App (App.js)**
+  Acts as the wiring layer that connects UI events to GameController methods.
+
+This separation allows UI and game logic to evolve independently and keeps testing isolated and reliable.
+
+---
+
+## Running the Project
+
+1. Clone the repository
+2. Install dependencies
+
+   ```
    npm install
    ```
+3. Run tests
 
-## Usage
+   ```
+   npm test
+   ```
+4. Start the development server
 
-### Build and Serve
+   ```
+   npm start
+   ```
+5. Start development server and tests together
 
-To rebundle:
-
-```bash
-npx webpack
-```
-
-To run on a live server:
-
-```bash
-npx webpack serve
-```
-
-### Run Dev Workflow (Webpack + Tests)
-
-You can run the dev server and Jest tests side by side using:
-
-```bash
-npm run dev
-```
-
-This uses `concurrently` to run both the webpack-dev-server and Jest in watch mode.
-
-## Testing with Jest
-
-A simple placeholder test is included in `src/tests/example.test.js`:
-
-```js
-test('this test always passes', () => {
-  expect(true).toBe(true);
-});
-```
-
-To run tests separately:
-
-```bash
-npm test
-```
-
-## Using Images and Videos
-
-This template supports loading image and video files via Webpack’s `asset/resource` module type.
-
-### Importing in JavaScript
-
-You can import image and video files directly into your JavaScript.
-
-#### Image Example:
-
-```js
-import logo from "./assets/logo.png";
-
-const img = document.createElement("img");
-img.src = logo;
-document.body.appendChild(img);
-```
-
-#### Video Example:
-
-```js
-import introVideo from "./assets/intro.mp4";
-
-const video = document.createElement("video");
-video.src = introVideo;
-video.autoplay = true;
-video.loop = true;
-video.muted = true;
-document.body.appendChild(video);
-```
-
-### Supported Formats
-
-**Images:**
-
-* `.png`
-* `.jpg`, `.jpeg`
-* `.gif`
-* `.svg`
-* `.webp`
-
-**Videos:**
-
-* `.mp4`
-* `.webm`
-* `.ogg`
-
-### Alternative: Static Assets via `public/`
-
-For assets you don’t want bundled (e.g., logos or demo videos), you can place them in the `public/` folder. These will be served statically.
-
-#### Example (in HTML):
-
-```html
-<img src="/logo.png" alt="Logo" />
-
-<video src="/intro.mp4" autoplay loop muted></video>
-```
-
-Use this method if you prefer to reference files directly in HTML or keep them outside the Webpack build pipeline.
-
-## Deploying to GitHub Pages
-
-To deploy your project to GitHub Pages, follow these steps:
-
-1. **Ensure you have the `homepage` field in `package.json`:**
-
-   Add the `homepage` field to `package.json` (replace `<your-username>` and `<your-repo-name>` with your GitHub username and repository name):
-
-   ```json
-   "homepage": "https://<your-username>.github.io/<your-repo-name>"
+   ```
+   npm run dev
    ```
 
-2. **Deploy your app:**
+---
 
-   To deploy your app to GitHub Pages, simply run:
+## Testing
 
-   ```bash
-   npm run deploy
-   ```
+* Jest is used for unit and behavioural testing
+* UI components, core classes, and game logic are covered
+* CI is configured to run the test suite automatically
 
-   This will trigger the `predeploy` script (which runs the build process) and then deploy the `dist/` folder to the `gh-pages` branch of your repository.
+---
 
-3. **Set up GitHub Pages:**
+## Demo Notes
 
-   Go to your GitHub repository settings and ensure that GitHub Pages is configured to serve from the `gh-pages` branch.
+A UI-only demo build is available to showcase interaction flow and completed front-end work. Game logic is isolated within the GameController and can be demonstrated independently if required.
 
-4. **Access the deployed app:**
+---
 
-   After deployment, your app will be available at `https://<your-username>.github.io/<your-repo-name>`.
+## Contribution Notes
 
-### Example `package.json` Scripts
+* UI and component architecture are complete and stable
+* Further development should focus on extending or refining GameController logic without modifying UI internals
+* UI components should communicate only via callbacks, not direct imports
 
-For clarity, here's what your `scripts` section in `package.json` should look like:
+---
 
-```json
-"scripts": {
-  "test": "jest --watchAll",
-  "serve": "webpack serve",
-  "dev": "concurrently --names \"WEBPACK,JEST\" --prefix-colors \"blue,green\" \"npm run serve\" \"npm run test\"",
-  "build": "webpack",
-  "predeploy": "npm run build",
-  "deploy": "gh-pages -d dist"
-}
-```
+## Credits
 
-## Additional Notes
+### Development
 
-* Make sure you have committed your changes before running the `deploy` script to ensure that everything is up to date.
-* GitHub Pages will serve the project from the `gh-pages` branch, so ensure that it's properly set up in your repository settings.
-* You can check the live deployment at `https://<your-username>.github.io/<your-repo-name>` after deployment.
+* Repository management, overall architecture, workflows, app wiring, UI system, components, and Clue logic: **Blake M.**
+* Lock game logic and HTML/CSS: **Alex W.**
+* GameController implementation: **Ben G.**
+
+### Team Roles
+
+* Project Manager: **Ben M.**
+* Designer: **Mia R.**
+* Cyber Security: **Rashid S.**
