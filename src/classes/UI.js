@@ -16,8 +16,15 @@
  */
 export default class UI {
   /**
-   * Initializes event listeners for the inventory
-   * and hint button, clickable clues and the lock.
+   * Initializes DOM event listeners for inventory, hint, clue, and lock triggers.
+   *
+   * UI is responsible only for handling user interactions and rendering components.
+   * An optional callback can be provided to notify the application layer (e.g. App)
+   * of user intent, such as a clue being selected, without coupling UI to game logic.
+   *
+   * @param {Object} componentMap - Map of selectors to renderable components.
+   * @param {function(string):void} [getInput] - Optional callback invoked with the
+   * clicked selector to allow the application layer to handle game state updates.
    *
    * @returns {void}
    */
@@ -37,7 +44,7 @@ export default class UI {
             closeCallBack: this.closePopup,
           });
 
-          if(getInput){
+          if (getInput) {
             getInput(selector);
           }
 
