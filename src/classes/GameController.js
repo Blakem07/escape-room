@@ -174,7 +174,7 @@ export default class GameController {
     }
 
     //Game completion popup
-    const completeModal = new ModalComponent("Congratulations!", "You've unlocked the door and escaped the room");
+    const completeModal = new ModalComponent("Congratulations!", "You've unlocked the door and escaped the room.");
 
     const completePopup = this._createPopup({
       content: () => completeModal.render(),

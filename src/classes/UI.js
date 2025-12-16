@@ -1,5 +1,3 @@
-import GameController from "./GameController";
-
 /**
  * Manages creation and interaction of UI elements such as popups,
  * overlays, buttons, and event-driven components.
