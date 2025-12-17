@@ -96,7 +96,7 @@ This separation allows UI and game logic to evolve independently and keeps testi
 4. Start the development server
 
    ```
-   npm start
+   npm run serve
    ```
 5. Start development server and tests together
 
